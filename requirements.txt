@@ -1,0 +1,8 @@
+fastapi
+sqlmodel
+uvicorn[standard]
+pydantic-settings
+jinja2
+pytest
+httpx
+resend
