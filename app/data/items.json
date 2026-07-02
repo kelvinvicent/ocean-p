@@ -1,0 +1,97 @@
+{
+  "version": "v1",
+  "language": "es",
+  "scale": {
+    "min": 1,
+    "max": 5,
+    "labels": {
+      "1": "Totalmente en desacuerdo",
+      "2": "En desacuerdo",
+      "3": "Neutral",
+      "4": "De acuerdo",
+      "5": "Totalmente de acuerdo"
+    }
+  },
+  "items": [
+    { "id": 1,  "text": "Disfruto investigar temas que no tienen aplicación práctica inmediata, solo por entenderlos.", "facet": "curiosidad_intelectual",  "dimension": "apertura",              "reverse_scored": false, "block": 1 },
+    { "id": 2,  "text": "Me gusta leer o ver contenido que desafía lo que ya creo saber.",                       "facet": "curiosidad_intelectual",  "dimension": "apertura",              "reverse_scored": false, "block": 1 },
+    { "id": 3,  "text": "Prefiero conversaciones profundas sobre ideas a charlas superficiales.",               "facet": "curiosidad_intelectual",  "dimension": "apertura",              "reverse_scored": false, "block": 1 },
+    { "id": 4,  "text": "Prefiero no profundizar en temas que no necesito para mi trabajo diario.",              "facet": "curiosidad_intelectual",  "dimension": "apertura",              "reverse_scored": true,  "block": 1 },
+
+    { "id": 5,  "text": "Se me ocurren con facilidad formas distintas de resolver un mismo problema.",          "facet": "creatividad",             "dimension": "apertura",              "reverse_scored": false, "block": 2 },
+    { "id": 6,  "text": "Disfruto actividades donde puedo inventar o diseñar algo nuevo.",                      "facet": "creatividad",             "dimension": "apertura",              "reverse_scored": false, "block": 2 },
+    { "id": 7,  "text": "Suelo imaginar escenarios o posibilidades antes de que ocurran.",                     "facet": "creatividad",             "dimension": "apertura",              "reverse_scored": false, "block": 2 },
+    { "id": 8,  "text": "Prefiero seguir un método ya probado antes que inventar uno nuevo.",                    "facet": "creatividad",             "dimension": "apertura",              "reverse_scored": true,  "block": 2 },
+
+    { "id": 9,  "text": "Me entusiasma probar algo que nunca he hecho, aunque no sepa cómo saldrá.",             "facet": "apertura_experiencias",   "dimension": "apertura",              "reverse_scored": false, "block": 3 },
+    { "id": 10, "text": "Disfruto viajar o explorar lugares, culturas o ideas distintas a las mías.",          "facet": "apertura_experiencias",   "dimension": "apertura",              "reverse_scored": false, "block": 3 },
+    { "id": 11, "text": "Cambiar de rutina me resulta estimulante más que incómodo.",                          "facet": "apertura_experiencias",   "dimension": "apertura",              "reverse_scored": false, "block": 3 },
+    { "id": 12, "text": "Prefiero la rutina conocida antes que la novedad incierta.",                          "facet": "apertura_experiencias",   "dimension": "apertura",              "reverse_scored": true,  "block": 3 },
+
+    { "id": 13, "text": "Planifico mis tareas con anticipación en lugar de improvisar sobre la marcha.",        "facet": "organizacion",            "dimension": "responsabilidad",       "reverse_scored": false, "block": 4 },
+    { "id": 14, "text": "Mantengo mis espacios (físicos o digitales) ordenados de forma consistente.",         "facet": "organizacion",            "dimension": "responsabilidad",       "reverse_scored": false, "block": 4 },
+    { "id": 15, "text": "Llevo algún sistema (lista, agenda, app) para no olvidar pendientes.",                "facet": "organizacion",            "dimension": "responsabilidad",       "reverse_scored": false, "block": 4 },
+    { "id": 16, "text": "Frecuentemente pierdo de vista tareas importantes por falta de organización.",         "facet": "organizacion",            "dimension": "responsabilidad",       "reverse_scored": true,  "block": 4 },
+
+    { "id": 17, "text": "Termino lo que empiezo, incluso cuando deja de ser interesante.",                     "facet": "autodisciplina",          "dimension": "responsabilidad",       "reverse_scored": false, "block": 5 },
+    { "id": 18, "text": "Cumplo mis compromisos aunque me cueste esfuerzo.",                                   "facet": "autodisciplina",          "dimension": "responsabilidad",       "reverse_scored": false, "block": 5 },
+    { "id": 19, "text": "Puedo postergar una gratificación inmediata por un objetivo a largo plazo.",           "facet": "autodisciplina",          "dimension": "responsabilidad",       "reverse_scored": false, "block": 5 },
+    { "id": 20, "text": "Me cuesta mantener la disciplina cuando una tarea se vuelve tediosa.",                "facet": "autodisciplina",          "dimension": "responsabilidad",       "reverse_scored": true,  "block": 5 },
+
+    { "id": 21, "text": "Me fijo metas concretas y trabajo activamente para alcanzarlas.",                     "facet": "orientacion_logro",       "dimension": "responsabilidad",       "reverse_scored": false, "block": 6 },
+    { "id": 22, "text": "Me exijo un estándar alto en lo que hago.",                                          "facet": "orientacion_logro",       "dimension": "responsabilidad",       "reverse_scored": false, "block": 6 },
+    { "id": 23, "text": "El progreso hacia mis objetivos me motiva más que el reconocimiento externo.",         "facet": "orientacion_logro",       "dimension": "responsabilidad",       "reverse_scored": false, "block": 6 },
+    { "id": 24, "text": "Suelo conformarme con un resultado \"suficiente\" aunque podría ser mejor.",          "facet": "orientacion_logro",       "dimension": "responsabilidad",       "reverse_scored": true,  "block": 6 },
+
+    { "id": 25, "text": "Disfruto genuinamente estar rodeado de gente la mayor parte del tiempo.",             "facet": "sociabilidad",            "dimension": "extraversion",          "reverse_scored": false, "block": 7 },
+    { "id": 26, "text": "Conocer personas nuevas me genera energía, no cansancio.",                           "facet": "sociabilidad",            "dimension": "extraversion",          "reverse_scored": false, "block": 7 },
+    { "id": 27, "text": "Busco activamente oportunidades sociales (eventos, reuniones, grupos).",              "facet": "sociabilidad",            "dimension": "extraversion",          "reverse_scored": false, "block": 7 },
+    { "id": 28, "text": "Prefiero pasar mi tiempo libre a solas antes que en grupo.",                          "facet": "sociabilidad",            "dimension": "extraversion",          "reverse_scored": true,  "block": 7 },
+
+    { "id": 29, "text": "Expreso mi opinión con claridad aunque no coincida con la mayoría.",                "facet": "asertividad",             "dimension": "extraversion",          "reverse_scored": false, "block": 8 },
+    { "id": 30, "text": "Tomo la iniciativa para liderar cuando una situación lo requiere.",                  "facet": "asertividad",             "dimension": "extraversion",          "reverse_scored": false, "block": 8 },
+    { "id": 31, "text": "Me siento cómodo negociando o defendiendo mis intereses.",                           "facet": "asertividad",             "dimension": "extraversion",          "reverse_scored": false, "block": 8 },
+    { "id": 32, "text": "Evito tomar la palabra en grupos por temor a la opinión ajena.",                      "facet": "asertividad",             "dimension": "extraversion",          "reverse_scored": true,  "block": 8 },
+
+    { "id": 33, "text": "Suelo abordar mis actividades con energía visible y entusiasmo.",                     "facet": "energia_entusiasmo",      "dimension": "extraversion",          "reverse_scored": false, "block": 9 },
+    { "id": 34, "text": "La gente describiría mi forma de ser como animada o expresiva.",                      "facet": "energia_entusiasmo",      "dimension": "extraversion",          "reverse_scored": false, "block": 9 },
+    { "id": 35, "text": "Me cuesta quedarme quieto/a cuando tengo algo que hacer.",                            "facet": "energia_entusiasmo",      "dimension": "extraversion",          "reverse_scored": false, "block": 9 },
+    { "id": 36, "text": "Tiendo a mostrarme reservado/a o de bajo perfil emocional ante otros.",              "facet": "energia_entusiasmo",      "dimension": "extraversion",          "reverse_scored": true,  "block": 9 },
+
+    { "id": 37, "text": "Percibo con facilidad cómo se siente otra persona, aunque no lo diga.",               "facet": "empatia",                 "dimension": "amabilidad",            "reverse_scored": false, "block": 10 },
+    { "id": 38, "text": "Me afecta genuinamente el malestar de las personas cercanas a mí.",                  "facet": "empatia",                 "dimension": "amabilidad",            "reverse_scored": false, "block": 10 },
+    { "id": 39, "text": "Adapto mi forma de comunicar según lo que la otra persona necesita escuchar.",       "facet": "empatia",                 "dimension": "amabilidad",            "reverse_scored": false, "block": 10 },
+    { "id": 40, "text": "Me cuesta conectar con las emociones de otras personas.",                             "facet": "empatia",                 "dimension": "amabilidad",            "reverse_scored": true,  "block": 10 },
+
+    { "id": 41, "text": "Prefiero buscar acuerdos antes que imponer mi posición.",                             "facet": "cooperacion",             "dimension": "amabilidad",            "reverse_scored": false, "block": 11 },
+    { "id": 42, "text": "Cedo parte de lo que quiero si eso ayuda a mantener una buena relación.",            "facet": "cooperacion",             "dimension": "amabilidad",            "reverse_scored": false, "block": 11 },
+    { "id": 43, "text": "Disfruto trabajar en equipo más que trabajar en solitario.",                         "facet": "cooperacion",             "dimension": "amabilidad",            "reverse_scored": false, "block": 11 },
+    { "id": 44, "text": "En un desacuerdo, priorizo tener razón antes que mantener la armonía.",               "facet": "cooperacion",             "dimension": "amabilidad",            "reverse_scored": true,  "block": 11 },
+
+    { "id": 45, "text": "Por defecto, asumo buena intención en las personas hasta que se demuestre lo contrario.", "facet": "confianza_interpersonal", "dimension": "amabilidad",            "reverse_scored": false, "block": 12 },
+    { "id": 46, "text": "Delego tareas en otros sin necesidad de supervisar cada detalle.",                   "facet": "confianza_interpersonal", "dimension": "amabilidad",            "reverse_scored": false, "block": 12 },
+    { "id": 47, "text": "Comparto información personal con relativa facilidad cuando hay confianza.",          "facet": "confianza_interpersonal", "dimension": "amabilidad",            "reverse_scored": false, "block": 12 },
+    { "id": 48, "text": "Por lo general sospecho de las intenciones de quienes no conozco bien.",             "facet": "confianza_interpersonal", "dimension": "amabilidad",            "reverse_scored": true,  "block": 12 },
+
+    { "id": 49, "text": "Mantengo la calma incluso bajo presión o plazos ajustados.",                         "facet": "manejo_estres",           "dimension": "estabilidad_emocional", "reverse_scored": false, "block": 13 },
+    { "id": 50, "text": "Cuando algo sale mal, busco soluciones en lugar de quedarme en la frustración.",     "facet": "manejo_estres",           "dimension": "estabilidad_emocional", "reverse_scored": false, "block": 13 },
+    { "id": 51, "text": "Mi estado de ánimo no depende fuertemente de los contratiempos del día.",             "facet": "manejo_estres",           "dimension": "estabilidad_emocional", "reverse_scored": false, "block": 13 },
+    { "id": 52, "text": "Las situaciones de presión me desbordan con facilidad.",                              "facet": "manejo_estres",           "dimension": "estabilidad_emocional", "reverse_scored": true,  "block": 13 },
+
+    { "id": 53, "text": "Puedo identificar lo que siento y nombrarlo con claridad mientras ocurre.",           "facet": "regulacion_emocional",    "dimension": "estabilidad_emocional", "reverse_scored": false, "block": 14 },
+    { "id": 54, "text": "No suelo reaccionar de forma impulsiva cuando algo me molesta.",                      "facet": "regulacion_emocional",    "dimension": "estabilidad_emocional", "reverse_scored": false, "block": 14 },
+    { "id": 55, "text": "Logro recomponerme con rapidez después de un disgusto.",                            "facet": "regulacion_emocional",    "dimension": "estabilidad_emocional", "reverse_scored": false, "block": 14 },
+    { "id": 56, "text": "Mis emociones suelen tomar el control antes de que pueda pensar con claridad.",      "facet": "regulacion_emocional",    "dimension": "estabilidad_emocional", "reverse_scored": true,  "block": 14 },
+
+    { "id": 57, "text": "Confío en mi criterio incluso cuando otros opinan distinto.",                        "facet": "autoconfianza",           "dimension": "estabilidad_emocional", "reverse_scored": false, "block": 15 },
+    { "id": 58, "text": "Las críticas no afectan de forma duradera cómo me veo a mí mismo/a.",                "facet": "autoconfianza",           "dimension": "estabilidad_emocional", "reverse_scored": false, "block": 15 },
+    { "id": 59, "text": "Me siento capaz de afrontar retos nuevos sin saber de antemano si lo lograré.",    "facet": "autoconfianza",           "dimension": "estabilidad_emocional", "reverse_scored": false, "block": 15 },
+    { "id": 60, "text": "Dependo bastante de la validación de otros para sentirme seguro/a.",                  "facet": "autoconfianza",           "dimension": "estabilidad_emocional", "reverse_scored": true,  "block": 15 },
+
+    { "id": 61, "text": "He cumplido absolutamente todas las normas de tránsito en toda mi vida.",             "facet": "validez_deseabilidad",    "dimension": "validez",               "reverse_scored": false, "block": 16, "validity_kind": "deseabilidad" },
+    { "id": 62, "text": "Nunca, en ninguna circunstancia, he sentido envidia de nadie.",                       "facet": "validez_deseabilidad",    "dimension": "validez",               "reverse_scored": false, "block": 16, "validity_kind": "deseabilidad" },
+    { "id": 63, "text": "Conozco personalmente a todos los presidentes que ha tenido mi país.",               "facet": "validez_atencion",        "dimension": "validez",               "reverse_scored": false, "block": 16, "validity_kind": "atencion" },
+    { "id": 64, "text": "Disfruto conocer gente nueva.",                                                     "facet": "validez_consistencia_26", "dimension": "validez",               "reverse_scored": false, "block": 16, "validity_kind": "consistencia", "consistency_with": 26 },
+    { "id": 65, "text": "Prefiero pasar tiempo en soledad que socializar.",                                   "facet": "validez_consistencia_28", "dimension": "validez",               "reverse_scored": false, "block": 16, "validity_kind": "consistencia", "consistency_with": 28, "consistency_inverted": true }
+  ]
+}

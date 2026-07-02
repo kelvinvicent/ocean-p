@@ -1,0 +1,276 @@
+{% extends "base.html" %}
+{% block title %}Informe · Salud Emocional{% endblock %}
+
+{% block content %}
+<section class="max-w-4xl mx-auto px-6 py-10 sm:py-14">
+
+    <!-- ─────────── RS-5: Alerta de ayuda profesional ─────────── -->
+    {% if professional_help_recommended %}
+    <div class="card border-l-4 border-ocean-neuro p-6 mb-6">
+        <div class="flex items-start gap-4">
+            <svg class="w-7 h-7 text-ocean-neuro flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
+            </svg>
+            <div>
+                <h3 class="font-heading font-semibold text-lg mb-2">
+                    Te recomendamos buscar apoyo profesional
+                </h3>
+                <p class="text-sm text-ocean-text-muted leading-relaxed">
+                    Tus respuestas sugieren síntomas compatibles con una severidad
+                    que se beneficia de acompañamiento profesional. Esto <span class="text-ocean-text font-medium">no
+                    es un diagnóstico</span>, pero sí una indicación clara de que hablar
+                    con un psicólogo o psiquiatra sería un buen siguiente paso.
+                </p>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+    <!-- ─────────── RS-2: Si hubo alerta de crisis, recursos arriba ─────────── -->
+    {% if crisis_alert %}
+    <div class="card border-l-4 border-ocean-accent p-6 mb-6">
+        <h3 class="font-heading font-semibold text-lg mb-2">
+            💙 Recursos de ayuda disponibles
+        </h3>
+        <p class="text-sm text-ocean-text-muted mb-4">
+            Tus respuestas indican que estás pasando por un momento difícil.
+            Hay personas formadas para escucharte y ayudarte. Si en algún momento
+            sentís que tu seguridad está en riesgo, contacta a los siguientes recursos:
+        </p>
+        {% if crisis_resources %}
+        <div class="space-y-2">
+            {% for r in crisis_resources %}
+            <div class="card p-3 bg-ocean-surface/30">
+                <p class="font-medium text-sm">{{ r.resource_name }}</p>
+                <p class="text-xs text-ocean-text-muted">{{ r.contact_info }}</p>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <p class="text-xs text-ocean-text-muted italic">
+            No tenemos recursos cargados para tu país. Por favor, busca
+            "línea de crisis [tu país]" en cualquier buscador.
+        </p>
+        {% endif %}
+    </div>
+    {% endif %}
+
+    <!-- ─────────── PHQ-9 (con interpretación conjunta WHO-5) ─────────── -->
+    {% set phq9 = scores.get('phq9') %}
+    {% if phq9 %}
+    <div class="card p-6 sm:p-8 mb-6">
+        <div class="flex items-start justify-between mb-3 gap-3">
+            <h2 class="font-heading font-bold text-xl">PHQ-9 · Síntomas depresivos</h2>
+            <span class="text-xs px-2 py-1 rounded bg-ocean-agree/20 text-ocean-agree whitespace-nowrap">
+                ✓ Instrumento clínico validado
+            </span>
+        </div>
+        <p class="text-sm text-ocean-text-muted mb-4">
+            Tus respuestas sugieren síntomas compatibles con un nivel
+            <span class="text-ocean-text font-medium">{{ phq9.severity_band.replace('_', ' ') }}</span>
+            (puntaje {{ phq9.total_score|int }}/27).
+        </p>
+
+        {% set who5 = scores.get('who5') %}
+        {% if who5 %}
+        <div class="card p-4 bg-ocean-surface/30 border-l-2 border-ocean-accent/50">
+            <p class="text-xs uppercase tracking-widest text-ocean-text-muted mb-1">
+                En conjunto con tu bienestar (WHO-5)
+            </p>
+            <p class="text-sm text-ocean-text leading-relaxed">
+                Tu nivel de bienestar general es
+                <span class="font-medium">{{ who5.severity_band.replace('_', ' ') }}</span>
+                ({{ who5.total_score }}%). Esta medida es coherente con tu resultado anterior.
+            </p>
+        </div>
+        {% endif %}
+    </div>
+    {% endif %}
+
+    <!-- ─────────── PHQ-15 (somático) ─────────── -->
+    {% set phq15 = scores.get('phq15') %}
+    {% if phq15 %}
+    <div class="card p-6 sm:p-8 mb-6">
+        <div class="flex items-start justify-between mb-3 gap-3">
+            <h2 class="font-heading font-bold text-xl">PHQ-15 · Síntomas somáticos</h2>
+            <span class="text-xs px-2 py-1 rounded bg-ocean-agree/20 text-ocean-agree whitespace-nowrap">
+                ✓ Instrumento clínico validado
+            </span>
+        </div>
+        <p class="text-sm text-ocean-text-muted">
+            Tus respuestas sobre molestias físicas en las últimas 4 semanas
+            se ubican en un nivel
+            <span class="text-ocean-text font-medium">{{ phq15.severity_band }}</span>
+            (puntaje {{ phq15.total_score|int }}).
+        </p>
+    </div>
+    {% endif %}
+
+    <!-- ─────────── Checklist cognitivo (descriptivo, sin puntaje) ─────────── -->
+    {% set cog = checklists.get('cognitive_checklist', []) %}
+    <div class="card p-6 sm:p-8 mb-6">
+        <div class="flex items-start justify-between mb-3 gap-3">
+            <h2 class="font-heading font-bold text-xl">Funciones cognitivas</h2>
+            <span class="text-xs px-2 py-1 rounded bg-ocean-text-muted/20 text-ocean-text-muted whitespace-nowrap">
+                ○ Observación descriptiva
+            </span>
+        </div>
+        {% if cog %}
+        <p class="text-sm text-ocean-text-muted mb-3">
+            Marcaste <span class="text-ocean-text font-medium">{{ cog|length }}</span>
+            de 8 señales de dificultad cognitiva en las últimas semanas:
+        </p>
+        <ul class="space-y-1 text-sm text-ocean-text-muted list-disc pl-5">
+            {% for item_id in cog %}
+            <li>{{ item_id }}. {{ '' }}{{ '' }}</li>
+            {% endfor %}
+        </ul>
+        {% else %}
+        <p class="text-sm text-ocean-text-muted">
+            No marcaste señales de dificultad cognitiva.
+        </p>
+        {% endif %}
+    </div>
+
+    <!-- ─────────── Checklist conductual ─────────── -->
+    {% set beh = checklists.get('behavioral_checklist', []) %}
+    <div class="card p-6 sm:p-8 mb-6">
+        <div class="flex items-start justify-between mb-3 gap-3">
+            <h2 class="font-heading font-bold text-xl">Comportamiento</h2>
+            <span class="text-xs px-2 py-1 rounded bg-ocean-text-muted/20 text-ocean-text-muted whitespace-nowrap">
+                ○ Observación descriptiva
+            </span>
+        </div>
+        {% if beh %}
+        <p class="text-sm text-ocean-text-muted mb-3">
+            Marcaste <span class="text-ocean-text font-medium">{{ beh|length }}</span>
+            de 8 cambios conductuales:
+        </p>
+        <ul class="space-y-1 text-sm text-ocean-text-muted list-disc pl-5">
+            {% for item_id in beh %}<li>Item {{ item_id }}</li>{% endfor %}
+        </ul>
+        {% else %}
+        <p class="text-sm text-ocean-text-muted">No marcaste cambios conductuales significativos.</p>
+        {% endif %}
+    </div>
+
+    <!-- ─────────── GAD-7 + Irritabilidad ─────────── -->
+    {% set gad7 = scores.get('gad7') %}
+    {% set irr = checklists.get('irritability_checklist', []) %}
+    <div class="card p-6 sm:p-8 mb-6">
+        <div class="flex items-start justify-between mb-3 gap-3">
+            <h2 class="font-heading font-bold text-xl">GAD-7 · Ansiedad</h2>
+            <span class="text-xs px-2 py-1 rounded bg-ocean-agree/20 text-ocean-agree whitespace-nowrap">
+                ✓ Instrumento clínico validado
+            </span>
+        </div>
+        {% if gad7 %}
+        <p class="text-sm text-ocean-text-muted mb-4">
+            Tus respuestas se ubican en un nivel
+            <span class="text-ocean-text font-medium">{{ gad7.severity_band.replace('_', ' ') }}</span>
+            (puntaje {{ gad7.total_score|int }}/21).
+        </p>
+        {% endif %}
+        {% if irr %}
+        <div class="card p-4 bg-ocean-surface/30">
+            <p class="text-xs uppercase tracking-widest text-ocean-text-muted mb-2">
+                Irritabilidad asociada
+            </p>
+            <p class="text-sm text-ocean-text-muted">
+                Marcaste <span class="text-ocean-text font-medium">{{ irr|length }}</span>
+                de 4 señales de irritabilidad. Esto es coherente con los resultados de ansiedad.
+            </p>
+        </div>
+        {% endif %}
+    </div>
+
+    <!-- ─────────── Rosenberg (autoestima) ─────────── -->
+    {% set rose = scores.get('rosenberg') %}
+    {% if rose %}
+    <div class="card p-6 sm:p-8 mb-6">
+        <div class="flex items-start justify-between mb-3 gap-3">
+            <h2 class="font-heading font-bold text-xl">Rosenberg · Autoestima</h2>
+            <span class="text-xs px-2 py-1 rounded bg-ocean-agree/20 text-ocean-agree whitespace-nowrap">
+                ✓ Instrumento clínico validado
+            </span>
+        </div>
+        <p class="text-sm text-ocean-text-muted">
+            Tu puntuación ({{ rose.total_score|int }}/30) se encuentra en
+            <span class="text-ocean-text font-medium">{{ rose.severity_band.replace('_', ' ') }}</span>.
+            {% if rose.severity_band == "rango_normal" %}
+            Esto sugiere una autoimagen dentro de los niveles esperados.
+            {% else %}
+            Esto sugiere que tu autoimagen merece atención, idealmente con apoyo profesional.
+            {% endif %}
+        </p>
+    </div>
+    {% endif %}
+
+    <!-- ─────────── Sueño (no clínico) ─────────── -->
+    {% set sleep = scores.get('sleep') %}
+    {% if sleep %}
+    <div class="card p-6 sm:p-8 mb-6">
+        <div class="flex items-start justify-between mb-3 gap-3">
+            <h2 class="font-heading font-bold text-xl">Calidad de sueño</h2>
+            <span class="text-xs px-2 py-1 rounded bg-ocean-text-muted/20 text-ocean-text-muted whitespace-nowrap">
+                ○ Estimación no clínica
+            </span>
+        </div>
+        <p class="text-sm text-ocean-text-muted">
+            Esta medida es <span class="text-ocean-text font-medium">una estimación descriptiva</span>,
+            no una escala clínica validada. Tu puntuación sugiere una calidad de sueño
+            <span class="text-ocean-text font-medium">{{ sleep.severity_band }}</span>.
+        </p>
+    </div>
+    {% endif %}
+
+    <!-- ─────────── Contexto (sin puntaje) ─────────── -->
+    {% if context_answers %}
+    <div class="card p-6 sm:p-8 mb-6">
+        <h2 class="font-heading font-bold text-xl mb-3">Contexto de vida</h2>
+        <p class="text-sm text-ocean-text-muted mb-4">
+            Información cualitativa sobre tu situación actual (no se puntúa).
+        </p>
+        <div class="space-y-2 text-sm">
+            {% for key, options in context_items.items() %}
+            {% set idx = loop.index0 %}
+            {% if context_answers.get(idx) is not none %}
+            <div class="flex items-start gap-3">
+                <span class="text-ocean-text-muted">•</span>
+                <div>
+                    <span class="text-ocean-text-muted">{{ key.replace('_', ' ') }}:</span>
+                    <span class="text-ocean-text ml-1">
+                        {{ options[context_answers[idx]] if context_answers[idx] < options|length else '—' }}
+                    </span>
+                </div>
+            </div>
+            {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+
+    <!-- ─────────── RS-4: Disclaimer siempre visible ─────────── -->
+    <div class="card p-5 mb-6 border-l-4 border-ocean-neuro bg-ocean-surface/30">
+        <h3 class="font-heading font-semibold mb-2">⚠ Importante</h3>
+        <p class="text-sm text-ocean-text leading-relaxed">
+            Este resultado es una <span class="text-ocean-text font-medium">herramienta de cribado de apoyo</span>
+            y <span class="text-ocean-text font-medium">no constituye un diagnóstico clínico</span>.
+            Si tenés dudas sobre tu bienestar emocional, te recomendamos hablar con
+            un profesional de salud mental.
+        </p>
+    </div>
+
+    <!-- ─────────── CTAs exportación (placeholders para Fase 2) ─────────── -->
+    <div class="card p-6 text-center">
+        <h2 class="font-heading font-semibold text-xl mb-2">Llevarte este informe</h2>
+        <p class="text-sm text-ocean-text-muted mb-6">
+            Próximamente: descarga en PDF y envío por correo.
+        </p>
+        <div class="flex flex-col sm:flex-row gap-3 justify-center">
+            <button class="btn btn-secondary" disabled>Descargar PDF (próximamente)</button>
+            <button class="btn btn-primary" disabled>Enviar por correo (próximamente)</button>
+        </div>
+    </div>
+</section>
+{% endblock %}

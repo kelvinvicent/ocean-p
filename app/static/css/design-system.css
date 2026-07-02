@@ -1,0 +1,492 @@
+/* OCEAN-P Design System
+   ─────────────────────────────────────────────────────
+   Tesis: tests psicométricos como "instrumentos de medición"
+   impresos de los años 50-70 (papel envejecido, líneas finas,
+   serif clásico) con un acento moderno de color.
+
+   Paleta cálida, no SaaS genérico. */
+:root {
+  /* ─── Papeles (backgrounds) ─── */
+  --color-bg:           #F4F1EA;  /* papel cálido */
+  --color-bg-elevated:  #EAE5D8;  /* papel envejecido, para cards */
+  --color-bg-deep:      #E1DBCC;  /* separadores, hairline backgrounds */
+  --color-bg-paper:     #FBF8F2;  /* papel muy claro, contraste con bg */
+
+  /* ─── Tinta (textos) ─── */
+  --color-ink:          #1A1815;  /* negro tinta, no puro */
+  --color-ink-soft:     #5C5749;  /* gris cálido */
+  --color-ink-faint:    #948D7A;  /* gris muy suave */
+
+  /* ─── Acento: terracota oxidado (único color saturado) ─── */
+  --color-accent:       #C8553D;  /* terracota */
+  --color-accent-soft:  #E8A87C;  /* terracota claro */
+  --color-accent-deep:  #8C3A28;  /* terracota oscuro */
+  --color-accent-tint:  #F0D4C5;  /* tint muy claro para hover */
+
+  /* ─── Estados (semánticos, no decorativos) ─── */
+  --color-success:      #5A7A4E;  /* verde musgo, no brillante */
+  --color-warning:      #B8862F;  /* ámbar, no chillón */
+  --color-danger:       #8C3A28;  /* mismo family que accent pero más oscuro */
+
+  /* ─── Bordes y hairlines (1px) ─── */
+  --color-border:       #1A1815;
+  --color-border-soft:  rgba(26, 24, 21, 0.15);
+
+  /* ─── Tipografía ─── */
+  --font-display: 'Fraunces', Georgia, serif;        /* serif con personalidad */
+  --font-body:    'Inter', system-ui, sans-serif;     /* sans neutral */
+  --font-mono:    'JetBrains Mono', monospace;        /* números, datos */
+
+  /* ─── Escala tipográfica (intencional, no default) ─── */
+  --text-xs:    0.75rem;   /* 12px - labels pequeñas */
+  --text-sm:    0.875rem;  /* 14px - meta */
+  --text-base:  1rem;      /* 16px - cuerpo */
+  --text-lg:    1.125rem;  /* 18px - destacado */
+  --text-xl:    1.5rem;    /* 24px - subtítulos */
+  --text-2xl:   2rem;      /* 32px - títulos sección */
+  --text-3xl:   3rem;      /* 48px - hero */
+  --text-4xl:   4rem;      /* 64px - display */
+
+  /* ─── Espaciado (4pt / 8pt) ─── */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+  --space-12: 3rem;
+  --space-16: 4rem;
+  --space-24: 6rem;
+
+  /* ─── Radios (deliberadamente suaves, no "skeuomorphic") ─── */
+  --radius-sm: 2px;
+  --radius-md: 4px;
+  --radius-lg: 8px;
+  --radius-pill: 999px;
+}
+
+body {
+  background-color: var(--color-bg);
+  color: var(--color-ink);
+  font-family: var(--font-body);
+  font-size: var(--text-base);
+  line-height: 1.6;
+  /* Texture sutil de papel (ruido) — generado con gradientes radiales */
+  background-image:
+    radial-gradient(circle at 25% 30%, rgba(26, 24, 21, 0.025) 0%, transparent 35%),
+    radial-gradient(circle at 75% 80%, rgba(26, 24, 21, 0.02) 0%, transparent 35%);
+  background-attachment: fixed;
+  min-height: 100vh;
+}
+
+.font-heading,
+.font-display { font-family: var(--font-display); }
+.font-body    { font-family: var(--font-body); }
+.font-mono    { font-family: var(--font-mono); }
+
+/* ─────────────────────────────────────────────────────
+   COMPONENTES BASE
+   ───────────────────────────────────────────────────── */
+
+/* Card: look de ficha impresa, no glass */
+.card {
+  background: var(--color-bg-paper);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: var(--space-6);
+  position: relative;
+}
+
+/* Card con hairline doble arriba (estética formulario impreso) */
+.card-form {
+  background: var(--color-bg-paper);
+  border-top: 3px solid var(--color-ink);
+  border-bottom: 1px solid var(--color-border);
+  border-left: 1px solid var(--color-border);
+  border-right: 1px solid var(--color-border);
+  padding: var(--space-8);
+  position: relative;
+}
+
+/* Hairline horizontal para dividir secciones (estilo periódico) */
+.hairline {
+  border: 0;
+  border-top: 1px solid var(--color-border);
+  margin: var(--space-8) 0;
+}
+
+.hairline-thick {
+  border: 0;
+  border-top: 3px solid var(--color-ink);
+  margin: var(--space-8) 0;
+}
+
+.hairline-double {
+  border: 0;
+  border-top: 1px solid var(--color-border);
+  border-bottom: 1px solid var(--color-border);
+  height: 4px;
+  margin: var(--space-8) 0;
+}
+
+/* ─────────────────────────────────────────────────────
+   TIPOGRAFÍA
+   ───────────────────────────────────────────────────── */
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-display);
+  font-weight: 500;
+  color: var(--color-ink);
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+}
+
+h1 { font-size: var(--text-3xl); font-weight: 600; }
+h2 { font-size: var(--text-2xl); }
+h3 { font-size: var(--text-xl); }
+
+p { margin-bottom: var(--space-4); }
+
+/* Label superior (eyebrow) en small caps mono — distintivo */
+.eyebrow {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: var(--color-ink-soft);
+  font-weight: 500;
+}
+
+/* Numeración tipográfica (01, 02, 03...) estilo formulario */
+.numeral {
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  letter-spacing: 0.05em;
+  color: var(--color-accent);
+  font-weight: 600;
+}
+
+/* Drop cap opcional para hero (memoria de "instrumento impreso") */
+.drop-cap::first-letter {
+  font-family: var(--font-display);
+  font-size: 4.5em;
+  float: left;
+  line-height: 0.85;
+  margin: 0.05em 0.1em 0 0;
+  color: var(--color-accent);
+  font-weight: 700;
+}
+
+/* ─────────────────────────────────────────────────────
+   BOTONES
+   ───────────────────────────────────────────────────── */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  padding: var(--space-3) var(--space-6);
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: var(--text-base);
+  border-radius: var(--radius-md);
+  border: 1px solid transparent;
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 180ms ease;
+  letter-spacing: 0.01em;
+}
+
+/* Primary: sólido, no gradient (gradients gritan "SaaS") */
+.btn-primary {
+  background: var(--color-ink);
+  color: var(--color-bg-paper);
+  border-color: var(--color-ink);
+}
+.btn-primary:hover {
+  background: var(--color-accent);
+  border-color: var(--color-accent);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(200, 85, 61, 0.25);
+}
+
+.btn-secondary {
+  background: transparent;
+  color: var(--color-ink);
+  border-color: var(--color-border);
+}
+.btn-secondary:hover {
+  background: var(--color-ink);
+  color: var(--color-bg-paper);
+}
+
+.btn-ghost {
+  background: transparent;
+  color: var(--color-ink-soft);
+  border: none;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-thickness: 1px;
+}
+.btn-ghost:hover { color: var(--color-ink); }
+
+.btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  transform: none !important;
+  box-shadow: none !important;
+}
+
+/* ─────────────────────────────────────────────────────
+   LIKERT (escala de respuesta) — look ficha impresa
+   ───────────────────────────────────────────────────── */
+
+.likert-scale {
+  display: flex;
+  gap: var(--space-2);
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.likert-option {
+  position: relative;
+  overflow: hidden;
+  width: 64px;
+  height: 64px;
+  border: 1.5px solid var(--color-ink);
+  background: var(--color-bg-paper);
+  color: var(--color-ink);
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 1.25rem;
+  cursor: pointer;
+  transition: all 150ms ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-sm);
+}
+
+.likert-option:hover {
+  background: var(--color-accent-tint);
+  transform: translateY(-2px);
+}
+
+.likert-option.selected {
+  background: var(--color-ink);
+  color: var(--color-bg-paper);
+  box-shadow: 0 4px 0 var(--color-accent);
+}
+
+.ripple-effect {
+  position: absolute;
+  border-radius: 50%;
+  background: var(--color-accent);
+  opacity: 0.5;
+  pointer-events: none;
+  width: 100px;
+  height: 100px;
+  margin: -50px;
+}
+
+/* ─────────────────────────────────────────────────────
+   BARRA DE PROGRESO — look regla tipográfica
+   ───────────────────────────────────────────────────── */
+
+.progress-track {
+  height: 2px;
+  background: var(--color-border-soft);
+  position: relative;
+  margin: var(--space-4) 0;
+}
+
+.progress-fill {
+  height: 100%;
+  background: var(--color-ink);
+  width: 0%;
+  transition: width 600ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Variante: con marca de posición (estética termómetro) */
+.progress-marked .progress-track {
+  height: 8px;
+  background: var(--color-bg-deep);
+  border-radius: 0;
+}
+.progress-marked .progress-fill {
+  background: var(--color-accent);
+}
+.progress-marked .progress-fill::after {
+  content: '';
+  position: absolute;
+  right: -4px;
+  top: -3px;
+  width: 14px;
+  height: 14px;
+  background: var(--color-bg-paper);
+  border: 2px solid var(--color-accent);
+  border-radius: 50%;
+}
+
+/* ─────────────────────────────────────────────────────
+   DIMENSION BAR (informe)
+   ───────────────────────────────────────────────────── */
+
+.dimension-bar-track {
+  height: 4px;
+  background: var(--color-bg-deep);
+  position: relative;
+  margin: var(--space-2) 0;
+}
+
+.dimension-bar-fill {
+  height: 100%;
+  width: 0%;
+  transition: width 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+  background: var(--color-ink);
+}
+
+/* Cuando tiene color personalizado por dimensión */
+.dimension-bar-fill[data-dimension="apertura"]              { background: var(--color-accent); }
+.dimension-bar-fill[data-dimension="responsabilidad"]       { background: var(--color-ink); }
+.dimension-bar-fill[data-dimension="extraversion"]          { background: var(--color-warning); }
+.dimension-bar-fill[data-dimension="amabilidad"]            { background: var(--color-success); }
+.dimension-bar-fill[data-dimension="estabilidad_emocional"] { background: var(--color-accent-deep); }
+
+/* ─────────────────────────────────────────────────────
+   REVEAL (animaciones de entrada)
+   ───────────────────────────────────────────────────── */
+
+/* Visibles por defecto — el JS los oculta solo si va a animar */
+.reveal-letter,
+.reveal-up,
+.to-reveal {
+  opacity: 1;
+  transform: none;
+}
+.js .reveal-letter {
+  display: inline-block;
+  opacity: 0;
+  transform: translateY(16px);
+}
+.js .reveal-up,
+.js .to-reveal {
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+/* ─────────────────────────────────────────────────────
+   A11Y
+   ───────────────────────────────────────────────────── */
+
+[x-cloak] { display: none !important; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 3px;
+}
+
+/* ─────────────────────────────────────────────────────
+   UTILIDADES ESPECÍFICAS DEL PRODUCTO
+   ───────────────────────────────────────────────────── */
+
+/* Etiqueta "Validated instrument" o "Descriptive observation" */
+.tag {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  padding: 2px 8px;
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  letter-spacing: 0.05em;
+  border: 1px solid var(--color-ink);
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: var(--color-ink);
+  text-transform: uppercase;
+}
+.tag-validated { border-color: var(--color-success); color: var(--color-success); }
+.tag-descriptive { border-color: var(--color-ink-soft); color: var(--color-ink-soft); }
+.tag-clinically-validated { background: var(--color-ink); color: var(--color-bg-paper); }
+
+/* Disclaimer block (RS-4): look ficha técnica */
+.callout {
+  padding: var(--space-6);
+  border-left: 3px solid var(--color-ink);
+  background: var(--color-bg-elevated);
+  font-size: var(--text-sm);
+  line-height: 1.6;
+}
+.callout-warning { border-left-color: var(--color-accent); }
+.callout-info    { border-left-color: var(--color-ink-soft); }
+
+/* Checkbox estilizado */
+.checkbox-label {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3);
+  cursor: pointer;
+  font-size: var(--text-sm);
+  line-height: 1.5;
+}
+.checkbox-label input[type="checkbox"] {
+  appearance: none;
+  width: 18px;
+  height: 18px;
+  border: 1.5px solid var(--color-ink);
+  background: var(--color-bg-paper);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  position: relative;
+  flex-shrink: 0;
+  margin-top: 2px;
+  transition: background 150ms ease;
+}
+.checkbox-label input[type="checkbox"]:checked {
+  background: var(--color-ink);
+}
+.checkbox-label input[type="checkbox"]:checked::after {
+  content: '✓';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: var(--color-bg-paper);
+  font-size: 12px;
+  font-weight: bold;
+}
+
+/* Links */
+a {
+  color: var(--color-ink);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-thickness: 1px;
+  text-decoration-color: var(--color-border-soft);
+  transition: all 150ms ease;
+}
+a:hover {
+  text-decoration-color: var(--color-accent);
+  color: var(--color-accent);
+}
+
+/* Containers de página */
+.page-container {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: var(--space-8) var(--space-6);
+}
+
+.page-container-wide {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: var(--space-8) var(--space-6);
+}

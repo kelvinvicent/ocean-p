@@ -1,0 +1,28 @@
+# ─────────────────────────────────────────────────────────────
+# railway.toml — Configuración de despliegue para Railway
+# Documentación: https://docs.railway.app/reference/config-as-code
+# ─────────────────────────────────────────────────────────────
+
+[build]
+builder = "DOCKERFILE"
+dockerfilePath = "Dockerfile"
+
+[deploy]
+# Comando de release: se ejecuta ANTES del startCommand en cada deploy.
+# Aplica las migraciones de Alembic — Railway hace rollback automático
+# si este comando falla, así que si una migración rompe, no queda
+# una versión inconsistente en producción.
+releaseCommand = "alembic upgrade head"
+
+# Comando principal: arranca uvicorn
+# Railway inyecta $PORT automáticamente; si no está, fallback a 8000.
+startCommand = "uvicorn app.main:app --host 0.0.0.0 --port ${PORT:-8000}"
+
+# Healthcheck: Railway hace GET a /health cada 30s.
+# Si falla 3 veces seguidas, marca el deploy como unhealthy.
+healthcheckPath = "/health"
+healthcheckTimeout = 10
+
+# Restart policy: reinicia automáticamente si el proceso muere.
+restartPolicyType = "ON_FAILURE"
+restartPolicyMaxRetries = 10

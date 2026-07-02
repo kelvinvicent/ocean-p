@@ -6,7 +6,7 @@ Implementa la clave de corrección descrita en el documento de diseño:
 - 5 ítems de validez (61-65)
 
 Uso:
-    from scoring_engine import score_test
+    from app.services.scoring_engine import score_test
     resultado = score_test(responses)  # responses: dict[int, int] con 65 entradas (valores 1-5)
 """
 

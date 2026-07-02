@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="OCEAN-P — Test de Personalidad y Salud Emocional.">
+    <title>{% block title %}OCEAN-P{% endblock %}</title>
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="/static/favicon.svg">
+
+    <!-- Google Fonts: Fraunces (display serif) + Inter (body) + JetBrains Mono (data) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+    <!-- Tailwind CSS via Play CDN (no build step) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              'paper':       '#F4F1EA',
+              'paper-soft':  '#FBF8F2',
+              'paper-elev':  '#EAE5D8',
+              'ink':         '#1A1815',
+              'ink-soft':    '#5C5749',
+              'ink-faint':   '#948D7A',
+              'terracotta':  '#C8553D',
+              'terracotta-soft': '#E8A87C',
+              'terracotta-deep': '#8C3A28',
+            },
+            fontFamily: {
+              'display': ['Fraunces', 'Georgia', 'serif'],
+              'body':    ['Inter', 'system-ui', 'sans-serif'],
+              'mono':    ['JetBrains Mono', 'monospace'],
+            }
+          }
+        }
+      }
+    </script>
+
+    <!-- Anime.js (micro-interactions) -->
+    <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
+
+    <!-- Alpine.js (small client behaviors) -->
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+
+    <!-- HTMX (server-driven interactions) -->
+    <script src="https://unpkg.com/htmx.org@1.9.12"></script>
+    <script src="https://unpkg.com/htmx.org/dist/ext/json-enc.js"></script>
+
+    <!-- Design System -->
+    <link rel="stylesheet" href="/static/css/design-system.css">
+</head>
+<body>
+    <div class="min-h-screen flex flex-col">
+        <header class="border-b border-ink">
+            <div class="page-container-wide flex items-center justify-between py-5">
+                <a href="/quiz" class="flex items-center gap-3 group no-underline">
+                    <div class="w-9 h-9 border border-ink flex items-center justify-center font-display font-semibold text-ink group-hover:bg-ink group-hover:text-paper-soft transition-colors">
+                        O
+                    </div>
+                    <div class="leading-tight">
+                        <div class="font-display text-lg font-semibold tracking-tight">OCEAN<span class="text-terracotta">-P</span></div>
+                        <div class="font-mono text-[10px] uppercase tracking-[0.15em] text-ink-soft">Test de Personalidad</div>
+                    </div>
+                </a>
+                <nav class="hidden sm:flex gap-6 font-mono text-xs uppercase tracking-[0.15em]">
+                    <a href="/quiz" class="no-underline text-ink-soft hover:text-ink">Personalidad</a>
+                    <a href="/emotional-health/" class="no-underline text-ink-soft hover:text-ink">Salud Emocional</a>
+                </nav>
+            </div>
+        </header>
+
+        <main class="flex-1">
+            {% block content %}{% endblock %}
+        </main>
+
+        <footer class="border-t border-ink mt-16">
+            <div class="page-container-wide py-8 flex flex-col sm:flex-row items-center justify-between gap-3">
+                <p class="font-mono text-[11px] uppercase tracking-[0.15em] text-ink-soft">
+                    OCEAN-P · Test de Personalidad & Salud Emocional
+                </p>
+                <p class="font-mono text-[11px] uppercase tracking-[0.15em] text-ink-faint">
+                    v1.0 · Datos almacenados de forma segura
+                </p>
+            </div>
+        </footer>
+    </div>
+
+    {% block scripts %}{% endblock %}
+</body>
+</html>

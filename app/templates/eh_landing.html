@@ -1,0 +1,137 @@
+{% extends "base.html" %}
+{% block title %}Salud Emocional · OCEAN-P{% endblock %}
+
+{% block content %}
+<section
+    class="page-container py-12 sm:py-16"
+    x-data="ehLandingState()"
+    x-init="init()"
+>
+    <p class="eyebrow mb-4 reveal-up">Cribado de Salud Emocional</p>
+    <h1 class="font-display font-semibold text-4xl sm:text-5xl mb-6 reveal-up">
+        ¿Cómo está tu bienestar emocional?
+    </h1>
+    <p class="text-lg text-ink-soft mb-10 leading-relaxed reveal-up">
+        Un cribado amplio: <span class="text-ink font-medium">78 preguntas</span>
+        distribuidas en 8 bloques. Duración estimada: <span class="text-ink font-medium">15-18 minutos</span>.
+    </p>
+
+    <hr class="hairline mb-10">
+
+    <!-- Disclaimer bloque destacado (RS-4) -->
+    <div class="callout callout-warning mb-8">
+        <p class="eyebrow mb-2 text-terracotta">Importante · lee antes de empezar</p>
+        <p class="text-ink mb-3 leading-relaxed">
+            Este resultado es una
+            <span class="font-medium">herramienta de cribado de apoyo</span>
+            y <span class="font-medium">no constituye un diagnóstico clínico</span>.
+        </p>
+        <p class="text-ink-soft text-sm leading-relaxed">
+            Si tenés dudas sobre tu bienestar emocional, te recomendamos hablar
+            con un profesional de salud mental.
+        </p>
+    </div>
+
+    <!-- 8 bloques — info rápida -->
+    <p class="eyebrow mb-4">Lo que vas a responder</p>
+    <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-8">
+        <div class="card p-3">
+            <p class="font-mono text-[10px] uppercase tracking-[0.15em] text-ink-soft mb-1">PHQ-9</p>
+            <p class="text-sm">Depresión</p>
+        </div>
+        <div class="card p-3">
+            <p class="font-mono text-[10px] uppercase tracking-[0.15em] text-ink-soft mb-1">WHO-5</p>
+            <p class="text-sm">Bienestar</p>
+        </div>
+        <div class="card p-3">
+            <p class="font-mono text-[10px] uppercase tracking-[0.15em] text-ink-soft mb-1">PHQ-15</p>
+            <p class="text-sm">Somático</p>
+        </div>
+        <div class="card p-3">
+            <p class="font-mono text-[10px] uppercase tracking-[0.15em] text-ink-soft mb-1">GAD-7</p>
+            <p class="text-sm">Ansiedad</p>
+        </div>
+        <div class="card p-3">
+            <p class="font-mono text-[10px] uppercase tracking-[0.15em] text-ink-soft mb-1">Rosenberg</p>
+            <p class="text-sm">Autoestima</p>
+        </div>
+        <div class="card p-3">
+            <p class="font-mono text-[10px] uppercase tracking-[0.15em] text-ink-soft mb-1">Sueño</p>
+            <p class="text-sm">No clínico</p>
+        </div>
+        <div class="card p-3">
+            <p class="font-mono text-[10px] uppercase tracking-[0.15em] text-ink-soft mb-1">Checklists</p>
+            <p class="text-sm">Cognitivo · Conducta</p>
+        </div>
+        <div class="card p-3">
+            <p class="font-mono text-[10px] uppercase tracking-[0.15em] text-ink-soft mb-1">Contexto</p>
+            <p class="text-sm">Vida actual</p>
+        </div>
+    </div>
+
+    <!-- Checkbox de aceptación (RS-4) — no premarcado -->
+    <div class="callout mb-8">
+        <label class="checkbox-label">
+            <input
+                type="checkbox"
+                id="disclaimer-accepted"
+                x-model="disclaimerAccepted"
+            />
+            <span>
+                He leído y entendido que este resultado es una herramienta de
+                <span class="font-medium">cribado de apoyo</span>, no un diagnóstico clínico.
+                Si mis respuestas sugieren una severidad alta, se me recomendará
+                buscar apoyo profesional.
+            </span>
+        </label>
+    </div>
+
+    <div class="text-center">
+        <button
+            class="btn btn-primary text-base px-8 py-4"
+            :disabled="!disclaimerAccepted"
+            @click="startAssessment()"
+        >
+            Comenzar cribado
+            <span class="font-mono text-xs opacity-70">→</span>
+        </button>
+    </div>
+
+    <p class="font-mono text-[11px] uppercase tracking-[0.15em] text-ink-soft text-center mt-6">
+        Tus respuestas son confidenciales
+    </p>
+</section>
+{% endblock %}
+
+{% block scripts %}
+<script>
+  function ehLandingState() {
+    return {
+      disclaimerAccepted: false,
+      init() {},
+      async startAssessment() {
+        const sessionResp = await fetch('/sessions', { method: 'POST' });
+        const sessionData = await sessionResp.json();
+        const sessionId = sessionData.session_id;
+
+        const r = await fetch('/emotional-health/start', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            session_id: sessionId,
+            disclaimer_accepted: true,
+            is_female: true,
+            country_code: 'ES',
+          }),
+        });
+        if (!r.ok) {
+          alert('Error: ' + (await r.text()));
+          return;
+        }
+        const data = await r.json();
+        window.location.href = `/emotional-health/quiz/${data.assessment_id}?block=1`;
+      },
+    };
+  }
+</script>
+{% endblock %}

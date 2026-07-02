@@ -1,0 +1,47 @@
+{
+  "version": "v1",
+  "description": "Tabla normativa inicial — fórmula lineal simplificada. Recalibrar con datos reales tras 200+ respuestas.",
+  "method": "linear",
+  "scale": { "min": 1.0, "max": 5.0 },
+  "scope_keys": {
+    "facet": [
+      "curiosidad_intelectual", "creatividad", "apertura_experiencias",
+      "organizacion", "autodisciplina", "orientacion_logro",
+      "sociabilidad", "asertividad", "energia_entusiasmo",
+      "empatia", "cooperacion", "confianza_interpersonal",
+      "manejo_estres", "regulacion_emocional", "autoconfianza"
+    ],
+    "dimension": [
+      "apertura", "responsabilidad", "extraversion", "amabilidad", "estabilidad_emocional"
+    ],
+    "composite_index": [
+      "liderazgo_potencial", "trabajo_equipo", "tolerancia_riesgo", "estilo_ejecucion"
+    ]
+  },
+  "mappings": {
+    "apertura":              { "method": "linear", "mean": 3.5, "sd": 0.7 },
+    "responsabilidad":       { "method": "linear", "mean": 3.4, "sd": 0.6 },
+    "extraversion":          { "method": "linear", "mean": 3.2, "sd": 0.8 },
+    "amabilidad":            { "method": "linear", "mean": 3.6, "sd": 0.6 },
+    "estabilidad_emocional": { "method": "linear", "mean": 2.8, "sd": 0.9 },
+    "curiosidad_intelectual":{ "method": "linear", "mean": 3.6, "sd": 0.7 },
+    "creatividad":           { "method": "linear", "mean": 3.4, "sd": 0.7 },
+    "apertura_experiencias": { "method": "linear", "mean": 3.3, "sd": 0.8 },
+    "organizacion":          { "method": "linear", "mean": 3.2, "sd": 0.7 },
+    "autodisciplina":        { "method": "linear", "mean": 3.4, "sd": 0.7 },
+    "orientacion_logro":     { "method": "linear", "mean": 3.6, "sd": 0.7 },
+    "sociabilidad":          { "method": "linear", "mean": 3.0, "sd": 0.8 },
+    "asertividad":           { "method": "linear", "mean": 3.1, "sd": 0.7 },
+    "energia_entusiasmo":    { "method": "linear", "mean": 3.3, "sd": 0.7 },
+    "empatia":               { "method": "linear", "mean": 3.7, "sd": 0.6 },
+    "cooperacion":           { "method": "linear", "mean": 3.6, "sd": 0.6 },
+    "confianza_interpersonal":{ "method": "linear", "mean": 3.3, "sd": 0.7 },
+    "manejo_estres":         { "method": "linear", "mean": 2.9, "sd": 0.8 },
+    "regulacion_emocional":  { "method": "linear", "mean": 3.0, "sd": 0.8 },
+    "autoconfianza":         { "method": "linear", "mean": 3.1, "sd": 0.7 },
+    "liderazgo_potencial":   { "method": "linear", "mean": 3.2, "sd": 0.6 },
+    "trabajo_equipo":        { "method": "linear", "mean": 3.4, "sd": 0.6 },
+    "tolerancia_riesgo":     { "method": "linear", "mean": 3.2, "sd": 0.6 },
+    "estilo_ejecucion":      { "method": "linear", "mean": 3.2, "sd": 0.6 }
+  }
+}

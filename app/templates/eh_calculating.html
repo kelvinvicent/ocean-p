@@ -1,0 +1,94 @@
+{% extends "base.html" %}
+{% block title %}Calculando · Salud Emocional{% endblock %}
+
+{% block content %}
+<section
+    class="max-w-2xl mx-auto px-6 py-16 sm:py-24 text-center"
+    x-data="ehCalculatingState({{ assessment_id }})"
+    x-init="init()"
+>
+    <div class="relative w-64 h-64 mx-auto mb-10">
+        <svg viewBox="0 0 200 200" class="w-full h-full">
+            <defs>
+                <linearGradient id="eh-g" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stop-color="#5B8DEF"/>
+                    <stop offset="100%" stop-color="#4ECDC4"/>
+                </linearGradient>
+            </defs>
+            <circle cx="100" cy="100" r="30" fill="none" stroke="#5B8DEF" stroke-width="2" opacity="0.5" id="eh-ring-1"/>
+            <circle cx="100" cy="100" r="50" fill="none" stroke="#4ECDC4" stroke-width="2" opacity="0.5" id="eh-ring-2"/>
+            <circle cx="100" cy="100" r="70" fill="none" stroke="#FFD93D" stroke-width="2" opacity="0.5" id="eh-ring-3"/>
+            <circle cx="100" cy="100" r="85" fill="none" stroke="#6BCB77" stroke-width="2" opacity="0.5" id="eh-ring-4"/>
+            <circle cx="100" cy="100" r="95" fill="none" stroke="#FF6B6B" stroke-width="2" opacity="0.5" id="eh-ring-5"/>
+            <circle cx="100" cy="100" r="6" fill="url(#eh-g)">
+                <animate attributeName="r" values="6;10;6" dur="2s" repeatCount="indefinite"/>
+            </circle>
+        </svg>
+    </div>
+
+    <h1 class="font-heading font-bold text-2xl sm:text-3xl mb-4">
+        Procesando tus respuestas...
+    </h1>
+    <p class="text-ocean-text-muted text-lg" x-text="statusText">Iniciando cálculo...</p>
+    <p class="text-xs text-ocean-text-muted mt-8">Por favor no cierres esta ventana.</p>
+</section>
+{% endblock %}
+
+{% block scripts %}
+<script>
+  function ehCalculatingState(assessmentId) {
+    return {
+      assessmentId,
+      statusText: 'Iniciando cálculo...',
+      messages: [
+        'Validando respuestas...',
+        'Calculando PHQ-9...',
+        'Procesando WHO-5...',
+        'Evaluando PHQ-15...',
+        'Revisando checklists...',
+        'Calculando GAD-7...',
+        'Procesando Rosenberg...',
+        'Generando tu informe...',
+      ],
+
+      init() {
+        const rings = ['#eh-ring-1', '#eh-ring-2', '#eh-ring-3', '#eh-ring-4', '#eh-ring-5'];
+        anime.timeline({ loop: true }).add(
+          rings.map((ring, i) => ({
+            targets: ring,
+            rotate: i % 2 === 0 ? 360 : -360,
+            duration: 2000 + i * 400,
+            easing: 'linear',
+          })),
+          0
+        );
+
+        let i = 0;
+        setInterval(() => {
+          i = (i + 1) % this.messages.length;
+          this.statusText = this.messages[i];
+        }, 1200);
+
+        // Disparar el cálculo y luego ir al informe
+        this.runScoring();
+      },
+
+      async runScoring() {
+        try {
+          const r = await fetch(`/emotional-health/score/${this.assessmentId}`, { method: 'POST' });
+          if (r.ok) {
+            setTimeout(() => {
+              window.location.href = `/emotional-health/report/${this.assessmentId}`;
+            }, 1500);
+          } else {
+            const data = await r.json();
+            alert('Error: ' + (data.detail || 'No se pudo calcular.'));
+          }
+        } catch (e) {
+          alert('Error de red: ' + e);
+        }
+      },
+    };
+  }
+</script>
+{% endblock %}

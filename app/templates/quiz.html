@@ -1,0 +1,223 @@
+{% extends "base.html" %}
+{% block title %}Cuestionario · OCEAN-P{% endblock %}
+
+{% block content %}
+<section
+    class="page-container py-8 sm:py-12"
+    x-data="quizState()"
+    x-init="init()"
+>
+    <!-- Header: contador + progreso -->
+    <div class="mb-8">
+        <div class="flex justify-between items-baseline mb-3">
+            <p class="eyebrow">
+                Ítem <span x-text="currentIndex + 1"></span> de 65
+            </p>
+            <p class="font-mono text-[11px] uppercase tracking-[0.15em] text-ink-soft">
+                <span x-text="Object.keys(answers).length"></span> respondidas
+            </p>
+        </div>
+        <div class="progress-track progress-marked">
+            <div class="progress-fill" :style="`width: ${(Object.keys(answers).length / 65) * 100}%`"></div>
+        </div>
+    </div>
+
+    <!-- Micro-momento de motivación: aparece al alcanzar el ítem 33 (50%) -->
+    <div
+        class="card-form mb-6"
+        x-show="showMotivation"
+        x-transition:enter="transition ease-out duration-500"
+        x-transition:enter-start="opacity-0 transform translate-y-4"
+        x-transition:enter-end="opacity-100 transform translate-y-0"
+        x-cloak
+    >
+        <p class="numeral mb-2">50%</p>
+        <h3 class="font-display text-2xl font-semibold mb-2">¡Ya vas por la mitad!</h3>
+        <p class="text-ink-soft mb-4">
+            Tu perfil está tomando forma. Las siguientes preguntas afinan los matices
+            de tu personalidad — tu honestidad es la clave.
+        </p>
+        <button class="btn btn-primary" @click="showMotivation = false">
+            Continuar
+        </button>
+    </div>
+
+    <!-- Pantalla de ítem -->
+    <article class="card p-6 sm:p-10 mb-8" id="item-card">
+        <p class="eyebrow mb-4">
+            <span x-text="currentItem.dimension?.replace('_', ' ') || ''"></span>
+        </p>
+        <p class="font-display text-xl sm:text-2xl leading-snug mb-10"
+           x-text="currentItem.text"></p>
+
+        <div class="likert-scale" id="likert-scale">
+            <template x-for="opt in [1,2,3,4,5]" :key="opt">
+                <button
+                    class="likert-option"
+                    :class="{ 'selected': answers[currentItem.id] === opt }"
+                    @click="selectOption(opt)"
+                    x-text="opt"
+                ></button>
+            </template>
+        </div>
+        <div class="flex justify-between text-[11px] font-mono uppercase tracking-[0.15em] text-ink-soft mt-4 px-1">
+            <span>Totalmente en desacuerdo</span>
+            <span>Totalmente de acuerdo</span>
+        </div>
+    </article>
+
+    <!-- Navegación -->
+    <div class="flex justify-between items-center">
+        <button
+            class="btn btn-secondary"
+            @click="prev()"
+            :disabled="currentIndex === 0"
+            x-show="currentIndex > 0"
+        >
+            ← Anterior
+        </button>
+        <div></div>
+        <button
+            class="btn btn-primary"
+            @click="next()"
+            :disabled="!answers[currentItem.id]"
+        >
+            <span x-text="currentIndex === 64 ? 'Finalizar' : 'Siguiente'"></span>
+            <span class="font-mono text-xs opacity-70 ml-1" x-show="currentIndex < 64">→</span>
+        </button>
+    </div>
+</section>
+{% endblock %}
+
+{% block scripts %}
+<script>
+  const ITEMS = {{ items | tojson }};
+
+  function quizState() {
+    return {
+      sessionId: '{{ session_id }}',
+      currentIndex: 0,
+      answers: {},
+      items: ITEMS,
+      showMotivation: false,
+      _motivationShown: false,
+
+      get currentItem() {
+        return this.items[this.currentIndex] || { id: 0, text: '', dimension: '' };
+      },
+
+      async init() {
+        const local = this._loadLocal();
+        if (local?.sessionId === this.sessionId) {
+          this.answers = local.answers;
+          this.currentIndex = Math.min(local.currentIndex, 64);
+        } else {
+          try {
+            const r = await fetch(`/sessions/${this.sessionId}/state`);
+            if (r.ok) {
+              const data = await r.json();
+              this.answers = data.answered || {};
+            }
+          } catch (_) {}
+        }
+        this._saveLocal();
+      },
+
+      selectOption(value) {
+        const btn = event.currentTarget;
+        const ripple = document.createElement('span');
+        ripple.className = 'ripple-effect';
+        const rect = btn.getBoundingClientRect();
+        ripple.style.left = (event.clientX - rect.left) + 'px';
+        ripple.style.top = (event.clientY - rect.top) + 'px';
+        btn.appendChild(ripple);
+        anime({
+          targets: ripple,
+          scale: [0, 4],
+          opacity: [0.5, 0],
+          duration: 500,
+          easing: 'easeOutExpo',
+          complete: () => ripple.remove(),
+        });
+
+        this.answers[this.currentItem.id] = value;
+        this._saveLocal();
+
+        fetch(`/sessions/${this.sessionId}/responses`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            item_id: this.currentItem.id,
+            raw_value: value,
+          }),
+        }).catch(() => {});
+      },
+
+      next() {
+        if (!this.answers[this.currentItem.id]) return;
+        if (this.currentIndex < 64) {
+          this.currentIndex++;
+          this._saveLocal();
+          this._animateProgress();
+          if (this.currentIndex === 32 && !this._motivationShown) {
+            this._motivationShown = true;
+            this.showMotivation = true;
+          }
+        } else {
+          this._submit();
+        }
+      },
+
+      prev() {
+        if (this.currentIndex > 0) {
+          this.currentIndex--;
+          this._saveLocal();
+        }
+      },
+
+      async _submit() {
+        const r = await fetch(`/sessions/${this.sessionId}/submit`, { method: 'POST' });
+        if (r.ok) {
+          localStorage.removeItem(this._storageKey());
+          window.location.href = `/calculating/${this.sessionId}`;
+        } else {
+          alert('Error: no se pudo calcular el perfil.');
+        }
+      },
+
+      _animateProgress() {
+        const fill = document.querySelector('.progress-fill');
+        if (!fill) return;
+        const targetWidth = (Object.keys(this.answers).length / 65) * 100;
+        anime({
+          targets: fill,
+          width: targetWidth + '%',
+          duration: 600,
+          easing: 'easeOutExpo',
+        });
+      },
+
+      _storageKey() {
+        return `ocean-p:session:${this.sessionId}`;
+      },
+
+      _loadLocal() {
+        try {
+          const raw = localStorage.getItem(this._storageKey());
+          return raw ? JSON.parse(raw) : null;
+        } catch (_) { return null; }
+      },
+
+      _saveLocal() {
+        try {
+          localStorage.setItem(this._storageKey(), JSON.stringify({
+            sessionId: this.sessionId,
+            answers: this.answers,
+            currentIndex: this.currentIndex,
+          }));
+        } catch (_) {}
+      },
+    };
+  }
+</script>
+{% endblock %}

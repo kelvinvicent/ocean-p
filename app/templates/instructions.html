@@ -1,0 +1,93 @@
+{% extends "base.html" %}
+{% block title %}Instrucciones · OCEAN-P{% endblock %}
+
+{% block content %}
+<section class="page-container py-12 sm:py-16">
+    <p class="eyebrow mb-4 reveal-up">Antes de empezar</p>
+    <h1 class="font-display font-semibold text-4xl sm:text-5xl mb-6 reveal-up">
+        ¿Cómo funciona el test?
+    </h1>
+    <p class="text-lg text-ink-soft mb-10 leading-relaxed reveal-up">
+        Vas a responder 65 afirmaciones pensando en cómo sos
+        <span class="text-ink font-medium">habitualmente</span>, no en cómo te gustaría ser.
+    </p>
+
+    <hr class="hairline mb-10">
+
+    <div class="space-y-6 mb-10">
+        <div class="card">
+            <p class="numeral mb-1">01</p>
+            <h2 class="font-display text-xl font-semibold mb-2">15 a 18 minutos</h2>
+            <p class="text-ink-soft text-sm">
+                Ritmo promedio: 12-15 segundos por ítem. Podés tomarte una pausa si necesitás.
+            </p>
+        </div>
+        <div class="card">
+            <p class="numeral mb-1">02</p>
+            <h2 class="font-display text-xl font-semibold mb-2">Cinco dimensiones OCEAN</h2>
+            <p class="text-ink-soft text-sm">
+                Apertura, Responsabilidad, Extraversión, Amabilidad y Estabilidad emocional.
+            </p>
+        </div>
+        <div class="card">
+            <p class="numeral mb-1">03</p>
+            <h2 class="font-display text-xl font-semibold mb-2">Quince facetas + 4 índices</h2>
+            <p class="text-ink-soft text-sm">
+                Detalle conductual y aplicación a liderazgo, equipo, riesgo y ejecución.
+            </p>
+        </div>
+        <div class="card">
+            <p class="numeral mb-1">04</p>
+            <h2 class="font-display text-xl font-semibold mb-2">Privacidad</h2>
+            <p class="text-ink-soft text-sm">
+                Sin cuenta. Tus resultados se conservan 90 días, luego se anonimizan.
+            </p>
+        </div>
+    </div>
+
+    <hr class="hairline mb-10">
+
+    <div class="mb-10">
+        <h3 class="font-display text-lg font-semibold mb-4">Escala de respuesta (1-5)</h3>
+        <div class="grid grid-cols-5 gap-2 text-center">
+            <div class="card p-3">
+                <div class="font-display text-2xl font-semibold text-ink mb-1">1</div>
+                <div class="text-ink-soft text-xs leading-tight">Totalmente en desacuerdo</div>
+            </div>
+            <div class="card p-3">
+                <div class="font-display text-2xl font-semibold text-ink mb-1">2</div>
+                <div class="text-ink-soft text-xs leading-tight">En desacuerdo</div>
+            </div>
+            <div class="card p-3">
+                <div class="font-display text-2xl font-semibold text-ink mb-1">3</div>
+                <div class="text-ink-soft text-xs leading-tight">Neutral</div>
+            </div>
+            <div class="card p-3">
+                <div class="font-display text-2xl font-semibold text-ink mb-1">4</div>
+                <div class="text-ink-soft text-xs leading-tight">De acuerdo</div>
+            </div>
+            <div class="card p-3">
+                <div class="font-display text-2xl font-semibold text-ink mb-1">5</div>
+                <div class="text-ink-soft text-xs leading-tight">Totalmente de acuerdo</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="callout mb-10">
+        <p class="font-display text-base font-semibold mb-2">📌 Importante</p>
+        <ul class="text-sm space-y-1 list-disc pl-5 text-ink-soft">
+            <li>No hay respuestas correctas o incorrectas. Sé honesto/a.</li>
+            <li>Si cerrás la página accidentalmente, tu progreso queda guardado.</li>
+            <li>El test incluye preguntas de control para detectar respuestas al azar.</li>
+        </ul>
+    </div>
+
+    <div class="flex flex-col sm:flex-row gap-3 justify-center">
+        <a href="/quiz" class="btn btn-secondary no-underline">← Volver</a>
+        <a href="/quiz/{{ session_id }}" class="btn btn-primary no-underline text-base px-8 py-4">
+            Empezar el test
+            <span class="font-mono text-xs opacity-70">→</span>
+        </a>
+    </div>
+</section>
+{% endblock %}

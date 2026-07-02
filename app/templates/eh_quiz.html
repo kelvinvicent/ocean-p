@@ -1,0 +1,230 @@
+{% extends "base.html" %}
+{% block title %}Cribado · Bloque {{ block }}{% endblock %}
+
+{% block content %}
+<section
+    class="max-w-3xl mx-auto px-6 py-8 sm:py-12"
+    x-data="ehQuizState()"
+    x-init="init()"
+>
+    <!-- Header: bloque + progreso -->
+    <div class="mb-6">
+        <div class="flex justify-between items-center mb-3">
+            <div>
+                <p class="text-xs text-ocean-text-muted uppercase tracking-widest">
+                    Bloque {{ block }} de {{ total_blocks }}
+                </p>
+                <p class="text-sm text-ocean-text mt-1 font-medium">{{ block_def.title }}</p>
+            </div>
+            <div class="text-right">
+                {% if block_def.is_clinical %}
+                <span class="inline-block text-xs px-2 py-1 rounded bg-ocean-agree/20 text-ocean-agree">
+                    ✓ Instrumento clínico validado
+                </span>
+                {% else %}
+                <span class="inline-block text-xs px-2 py-1 rounded bg-ocean-text-muted/20 text-ocean-text-muted">
+                    ○ Observación descriptiva
+                </span>
+                {% endif %}
+                <p class="text-xs text-ocean-text-muted mt-1">{{ block_def.window }}</p>
+            </div>
+        </div>
+        <div class="progress-track">
+            <div class="progress-fill" :style="`width: ${progressPercent}%`"></div>
+        </div>
+    </div>
+
+    <!-- Instrucciones del bloque (RF-1.1) -->
+    <div class="card p-5 mb-6 border-l-2 border-ocean-accent/50">
+        <p class="text-sm text-ocean-text leading-relaxed">{{ block_def.instructions }}</p>
+    </div>
+
+    <!-- Lista de ítems (RF-1.2: cada bloque tiene su propia escala) -->
+    <div class="space-y-4 mb-8">
+        {% for item_id, item_text in items.items() %}
+        <div class="card p-5" id="item-{{ item_id }}">
+            <div class="flex items-start gap-4">
+                <div class="font-mono text-sm text-ocean-text-muted flex-shrink-0 mt-1">
+                    {{ item_id }}.
+                </div>
+                <div class="flex-1">
+                    <p class="text-sm text-ocean-text leading-relaxed mb-4">{{ item_text }}</p>
+
+                    {% if block_def.scale == "yes_no" %}
+                    <!-- Checklist (sin puntaje numérico) -->
+                    <div class="flex gap-3">
+                        <label class="flex items-center gap-2 cursor-pointer text-sm">
+                            <input
+                                type="radio"
+                                :name="`q-{{ item_id }}`"
+                                :value="1"
+                                @change="answer({{ item_id }}, 1)"
+                                :checked="answers[{{ item_id }}] === 1"
+                                class="cursor-pointer"
+                            />
+                            Sí
+                        </label>
+                        <label class="flex items-center gap-2 cursor-pointer text-sm">
+                            <input
+                                type="radio"
+                                :name="`q-{{ item_id }}`"
+                                :value="0"
+                                @change="answer({{ item_id }}, 0)"
+                                :checked="answers[{{ item_id }}] === 0"
+                                class="cursor-pointer"
+                            />
+                            No
+                        </label>
+                    </div>
+
+                    {% elif block_def.scale == "context" %}
+                    <!-- Contexto: opciones múltiples desde el backend -->
+                    <select
+                        @change="answer({{ item_id }}, parseInt($event.target.value))"
+                        class="bg-ocean-surface border border-ocean-border rounded px-3 py-2 text-sm w-full"
+                    >
+                        <option value="">— Selecciona una opción —</option>
+                        {% for opt in context_options.values %}
+                        {% for o in opt %}
+                        <option
+                            value="{{ loop.index0 }}"
+                            :selected="answers[{{ item_id }}] === {{ loop.index0 }}"
+                        >{{ o }}</option>
+                        {% endfor %}
+                        {% endfor %}
+                    </select>
+
+                    {% else %}
+                    <!-- Escala Likert variable (0-3, 0-5, etc.) -->
+                    <div class="flex flex-wrap gap-2">
+                        {% if block_def.scale == "0-3_4opciones" %}
+                        {% for opt_label, opt_text in [("0", "Ningún día"), ("1", "Varios días"), ("2", "Más de la mitad"), ("3", "Casi todos los días")] %}
+                        <button
+                            class="likert-option"
+                            :class="{ 'selected': answers[{{ item_id }}] === {{ opt_label|int }} }"
+                            @click="answer({{ item_id }}, {{ opt_label|int }})"
+                        >{{ opt_label }}</button>
+                        {% endfor %}
+                        <span class="text-xs text-ocean-text-muted self-center ml-2">Ningún día → Casi todos</span>
+
+                        {% elif block_def.scale == "0-5_6opciones" %}
+                        {% for opt_label, opt_text in [("0", "En ningún momento"), ("1", "Alguna vez"), ("2", "Menos de la mitad"), ("3", "Más de la mitad"), ("4", "La mayor parte"), ("5", "Todo el tiempo")] %}
+                        <button
+                            class="likert-option"
+                            :class="{ 'selected': answers[{{ item_id }}] === {{ opt_label|int }} }"
+                            @click="answer({{ item_id }}, {{ opt_label|int }})"
+                        >{{ opt_label }}</button>
+                        {% endfor %}
+
+                        {% elif block_def.scale == "0-2_3opciones" %}
+                        {% for opt_label, opt_text in [("0", "Nada molesto"), ("1", "Un poco molesto"), ("2", "Mucho molesto")] %}
+                        <button
+                            class="likert-option"
+                            :class="{ 'selected': answers[{{ item_id }}] === {{ opt_label|int }} }"
+                            @click="answer({{ item_id }}, {{ opt_label|int }})"
+                        >{{ opt_label }}</button>
+                        {% endfor %}
+                        {% endif %}
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <!-- Navegación entre bloques -->
+    <div class="flex justify-between items-center sticky bottom-0 bg-ocean-bg/80 backdrop-blur-md py-3 -mx-6 px-6 border-t border-ocean-border/30">
+        <a
+            href="/emotional-health/quiz/{{ assessment_id }}?block={{ block - 1 }}"
+            class="btn btn-secondary"
+            x-show="{{ block }} > 1"
+        >← Bloque anterior</a>
+        <div></div>
+        <button
+            class="btn btn-primary"
+            @click="nextBlock()"
+            :disabled="!allAnswered"
+        >
+            <span x-text="{{ block }} === {{ total_blocks }} ? 'Calcular perfil' : 'Siguiente bloque'"></span>
+            <span x-show="{{ block }} < {{ total_blocks }}">→</span>
+        </button>
+    </div>
+</section>
+{% endblock %}
+
+{% block scripts %}
+<script>
+  function ehQuizState() {
+    return {
+      assessmentId: {{ assessment_id }},
+      block: {{ block }},
+      totalBlocks: {{ total_blocks }},
+      module: '{{ block_def.module }}',
+      answers: {},
+
+      get allAnswered() {
+        return {{ items.keys() | list | length }} === Object.keys(this.answers).length;
+      },
+      get progressPercent() {
+        return (Object.keys(this.answers).length / {{ items.keys() | list | length }}) * 100;
+      },
+
+      init() {
+        // Restaurar progreso de localStorage
+        const key = `eh:${this.assessmentId}:block:${this.block}`;
+        try {
+          const stored = JSON.parse(localStorage.getItem(key) || '{}');
+          this.answers = stored.answers || {};
+        } catch (_) {}
+      },
+
+      answer(itemId, value) {
+        this.answers[itemId] = value;
+        this._saveLocal();
+
+        // POST al backend
+        fetch('/emotional-health/answer', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            assessment_id: this.assessmentId,
+            module: this.module,
+            item_id: itemId,
+            raw_value: value,
+          }),
+        })
+          .then((r) => r.json())
+          .then((data) => {
+            // RS-2: si el ítem 9 del PHQ-9 activó crisis, redirigir
+            if (data.crisis_alert_triggered) {
+              window.location.href =
+                `/emotional-health/crisis?assessment_id=${this.assessmentId}`;
+            }
+          })
+          .catch(() => {});
+      },
+
+      nextBlock() {
+        if (!this.allAnswered) return;
+        if (this.block < this.totalBlocks) {
+          window.location.href =
+            `/emotional-health/quiz/${this.assessmentId}?block=${this.block + 1}`;
+        } else {
+          // Último bloque: ir a calculating
+          window.location.href = `/emotional-health/calculating/${this.assessmentId}`;
+        }
+      },
+
+      _saveLocal() {
+        try {
+          localStorage.setItem(
+            `eh:${this.assessmentId}:block:${this.block}`,
+            JSON.stringify({ answers: this.answers })
+          );
+        } catch (_) {}
+      },
+    };
+  }
+</script>
+{% endblock %}

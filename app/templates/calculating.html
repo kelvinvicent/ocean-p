@@ -1,0 +1,104 @@
+{% extends "base.html" %}
+{% block title %}Calculando tu perfil · OCEAN-P{% endblock %}
+
+{% block content %}
+<section
+    class="max-w-2xl mx-auto px-6 py-16 sm:py-24 text-center"
+    x-data="calculatingState('{{ session_id }}')"
+    x-init="init()"
+>
+    <!-- SVG loader: 5 anillos OCEAN (Design Spell 3) -->
+    <div class="relative w-64 h-64 mx-auto mb-10">
+        <svg viewBox="0 0 200 200" class="w-full h-full" id="loader-svg">
+            <defs>
+                <linearGradient id="g-ocean" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stop-color="#5B8DEF" />
+                    <stop offset="100%" stop-color="#4ECDC4" />
+                </linearGradient>
+            </defs>
+            <!-- 5 anillos concéntricos, uno por dimensión OCEAN -->
+            <circle cx="100" cy="100" r="30"  fill="none" stroke="#5B8DEF" stroke-width="2" opacity="0.5" id="ring-O"/>
+            <circle cx="100" cy="100" r="50"  fill="none" stroke="#4ECDC4" stroke-width="2" opacity="0.5" id="ring-C"/>
+            <circle cx="100" cy="100" r="70"  fill="none" stroke="#FFD93D" stroke-width="2" opacity="0.5" id="ring-E"/>
+            <circle cx="100" cy="100" r="85"  fill="none" stroke="#6BCB77" stroke-width="2" opacity="0.5" id="ring-A"/>
+            <circle cx="100" cy="100" r="95"  fill="none" stroke="#FF6B6B" stroke-width="2" opacity="0.5" id="ring-N"/>
+            <!-- Núcleo -->
+            <circle cx="100" cy="100" r="6" fill="url(#g-ocean)">
+                <animate attributeName="r" values="6;10;6" dur="2s" repeatCount="indefinite"/>
+            </circle>
+        </svg>
+    </div>
+
+    <h1 class="font-heading font-bold text-2xl sm:text-3xl mb-4">
+        Calculando tu perfil...
+    </h1>
+    <p
+        class="text-ocean-text-muted text-lg"
+        x-text="statusText"
+    >
+        Analizando apertura...
+    </p>
+    <p class="text-xs text-ocean-text-muted mt-8">
+        Por favor no cierres esta ventana.
+    </p>
+</section>
+{% endblock %}
+
+{% block scripts %}
+<script>
+  function calculatingState(sessionId) {
+    return {
+      sessionId,
+      statusText: 'Analizando apertura...',
+      statusMessages: [
+        'Analizando apertura...',
+        'Calculando responsabilidad...',
+        'Midiendo extraversión...',
+        'Evaluando amabilidad...',
+        'Comprobando estabilidad emocional...',
+        'Aplicando baremos normativos...',
+        'Detectando tu arquetipo...',
+      ],
+
+      init() {
+        // 1) Animar anillos OCEAN rotando a distintas velocidades
+        const rings = ['#ring-O', '#ring-C', '#ring-E', '#ring-A', '#ring-N'];
+        anime.timeline({ loop: true })
+          .add(rings.map((ring, i) => ({
+            targets: ring,
+            rotate: i % 2 === 0 ? 360 : -360,
+            duration: 2000 + i * 400,
+            easing: 'linear',
+          })), 0);
+
+        // 2) Cambiar el texto cada 1.5s
+        let msgIndex = 0;
+        setInterval(() => {
+          msgIndex = (msgIndex + 1) % this.statusMessages.length;
+          this.statusText = this.statusMessages[msgIndex];
+        }, 1500);
+
+        // 3) Polling del estado: si está completed/invalid, redirigir
+        this.pollStatus();
+      },
+
+      async pollStatus() {
+        const tick = async () => {
+          try {
+            const r = await fetch(`/sessions/${this.sessionId}/state`);
+            if (r.ok) {
+              const data = await r.json();
+              if (data.status === 'completed' || data.status === 'invalid') {
+                window.location.href = `/report/${this.sessionId}`;
+                return;
+              }
+            }
+          } catch (_) {}
+          setTimeout(tick, 800);
+        };
+        setTimeout(tick, 1200); // pequeño delay para que se vea el loader
+      },
+    };
+  }
+</script>
+{% endblock %}

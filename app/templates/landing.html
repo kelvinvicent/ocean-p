@@ -1,0 +1,112 @@
+{% extends "base.html" %}
+{% block title %}OCEAN-P · Conocé tu perfil{% endblock %}
+
+{% block content %}
+<section class="page-container-wide py-12 sm:py-20">
+
+    <!-- ───── HERO ───── -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
+        <div class="lg:col-span-8">
+            <p class="eyebrow mb-6 reveal-up">Test Psicométrico · 65 ítems · 15 min</p>
+
+            <h1 id="headline" class="font-display font-semibold text-4xl sm:text-5xl lg:text-6xl leading-[1.05] tracking-tight mb-8">
+                Un test de personalidad que te dice algo
+                <span class="italic text-terracotta">útil</span>
+                sobre cómo trabajás.
+            </h1>
+
+            <p class="text-lg text-ink-soft max-w-2xl leading-relaxed mb-10 reveal-up">
+                Sesenta y cinco preguntas, quince facetas medidas, cuatro índices profesionales.
+                Basado en el modelo OCEAN — la herramienta con más respaldo empírico en psicología
+                del trabajo.
+            </p>
+
+            <div class="flex flex-col sm:flex-row gap-3 mb-6 reveal-up">
+                <button
+                    id="cta-button"
+                    class="btn btn-primary text-base px-8 py-4"
+                    hx-post="/sessions"
+                    hx-ext="json-enc"
+                    hx-swap="none"
+                    hx-trigger="click"
+                    hx-on::after-request="
+                        if (event.detail.successful) {
+                            const data = JSON.parse(event.detail.xhr.responseText);
+                            window.location.href = '/quiz/' + data.session_id + '/instructions';
+                        }
+                    "
+                >
+                    Comenzar el test
+                    <span class="font-mono text-xs opacity-70">→</span>
+                </button>
+                <a href="/emotional-health/" class="btn btn-secondary text-base px-6 py-4 no-underline">
+                    Ver cribado emocional
+                </a>
+            </div>
+            <p class="font-mono text-[11px] uppercase tracking-[0.15em] text-ink-faint reveal-up">
+                No requiere cuenta · Resultados inmediatos · Datos almacenados localmente
+            </p>
+        </div>
+
+        <!-- Aside: lo que vas a obtener -->
+        <aside class="lg:col-span-4">
+            <div class="card-form">
+                <p class="eyebrow mb-4">Tu informe incluye</p>
+                <ul class="space-y-4">
+                    <li>
+                        <span class="numeral block mb-1">01</span>
+                        <p class="text-sm">Cinco dimensiones del modelo OCEAN, con percentil personalizado</p>
+                    </li>
+                    <li>
+                        <span class="numeral block mb-1">02</span>
+                        <p class="text-sm">Quince facetas conductuales — la parte accionable</p>
+                    </li>
+                    <li>
+                        <span class="numeral block mb-1">03</span>
+                        <p class="text-sm">Cuatro índices profesionales: liderazgo, equipo, riesgo, ejecución</p>
+                    </li>
+                    <li>
+                        <span class="numeral block mb-1">04</span>
+                        <p class="text-sm">Un arquetipo descriptivo basado en tus dos dimensiones más altas</p>
+                    </li>
+                </ul>
+                <hr class="hairline mt-6 mb-4">
+                <p class="font-mono text-[10px] uppercase tracking-[0.15em] text-ink-faint">
+                    Metodología publicada · Instrumentos validados
+                </p>
+            </div>
+        </aside>
+    </div>
+
+    <hr class="hairline-thick mt-20 mb-12">
+
+    <!-- ───── DIVISIÓN: OTRO TEST ───── -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12">
+        <div>
+            <p class="numeral mb-3">02</p>
+            <h2 class="font-display text-2xl font-semibold mb-3">Salud emocional</h2>
+            <p class="text-ink-soft mb-4">
+                Un cribado amplio con instrumentos validados (PHQ-9, GAD-7, WHO-5, Rosenberg)
+                más tres checklists descriptivos. No es un diagnóstico — es una herramienta
+                de apoyo con detección automática de señales de crisis.
+            </p>
+            <a href="/emotional-health/" class="btn btn-ghost">Ir al cribado →</a>
+        </div>
+        <div>
+            <p class="numeral mb-3">03</p>
+            <h2 class="font-display text-2xl font-semibold mb-3">Sobre el proyecto</h2>
+            <p class="text-ink-soft mb-4">
+                Construido sobre la base de los Cinco Grandes (OCEAN) con instrumentos
+                validados internacionalmente. Los percentiles derivan de una tabla
+                normativa inicial que se recalibra con datos reales.
+            </p>
+            <a href="#" class="btn btn-ghost">Leer metodología →</a>
+        </div>
+    </div>
+
+</section>
+{% endblock %}
+
+{% block scripts %}
+<script src="/static/js/landing.js"></script>
+{% endblock %}

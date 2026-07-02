@@ -1,0 +1,167 @@
+{
+  "version": "v1",
+  "bands": {
+    "low":  {"min": 0,  "max": 35,  "label": "bajo"},
+    "mid":  {"min": 35, "max": 65,  "label": "medio"},
+    "high": {"min": 65, "max": 100, "label": "alto"}
+  },
+  "dimensions": {
+    "apertura": {
+      "name": "Apertura a la experiencia",
+      "behavioral": "Mide tu curiosidad, creatividad y disposición a lo nuevo. Quienes puntúan alto suelen disfrutar explorando ideas, culturas y enfoques no convencionales; quienes puntúan bajo suelen preferir lo conocido y concreto.",
+      "low":  "Sos más práctico/a y concreto/a que teórico/a. Preferís lo conocido y comprobable por sobre la experimentación abstracta, y eso puede darte estabilidad y foco.",
+      "mid":  "Tenés un equilibrio entre curiosidad por lo nuevo y apego a lo conocido. Disfrutás aprender cosas nuevas sin que eso te empuje a cambiar permanentemente.",
+      "high": "Sos una persona con fuerte curiosidad intelectual, gusto por la creatividad y atracción por lo nuevo. Esto enriquece tu visión pero puede requerir estructura para no dispersarte."
+    },
+    "responsabilidad": {
+      "name": "Responsabilidad",
+      "behavioral": "Tu nivel de organización, autodisciplina y orientación al logro. Quienes puntúan alto suelen cumplir compromisos y planificar con anticipación; quienes puntúan bajo suelen ser más flexibles y espontáneos.",
+      "low":  "Sos más flexible y espontáneo/a que planificado/a. Eso te da adaptabilidad, pero las tareas de largo plazo te cuestan si no tenés un sistema que te respalde.",
+      "mid":  "Podés ser disciplinado/a cuando la situación lo requiere, sin rigidez. Cumplís, pero sin sacrificar tu capacidad de adaptarte.",
+      "high": "Sos altamente organizado/a, disciplinado/a y orientado/a al logro. Cumplís lo que prometés, lo que te hace muy confiable en roles de ejecución."
+    },
+    "extraversion": {
+      "name": "Extraversión",
+      "behavioral": "Tu nivel de energía social, asertividad y entusiasmo. Quienes puntúan alto se energizan con personas y situaciones nuevas; quienes puntúan bajo recargan energías en soledad o reflexión.",
+      "low":  "Recargás energías en soledad y reflexión. No significa que no disfrutes a otras personas, sino que las situaciones muy estimulantes te cansan más rápido.",
+      "mid":  "Podés adaptarte a contextos sociales activos o a momentos de trabajo individual con la misma soltura. Sos versátil.",
+      "high": "Te energiza estar con gente, liderar conversaciones y tomar la iniciativa. Esto te hace fuerte en roles visibles y de coordinación."
+    },
+    "amabilidad": {
+      "name": "Amabilidad",
+      "behavioral": "Tu nivel de empatía, cooperación y confianza interpersonal. Quienes puntúan alto priorizan la armonía y la conexión; quienes puntúan bajo suelen ser más competitivos y directos.",
+      "low":  "Sos directo/a y posiblemente competitivo/a. Priorizás tener razón por sobre mantener la armonía, lo que te hace fuerte en negociación y discusión crítica.",
+      "mid":  "Equilibrás la empatía con la capacidad de decir lo que pensás. Cooperás sin perder tu propio criterio.",
+      "high": "Sos empático/a, cooperativo/a y confiás en la buena intención de los demás. Esto te hace muy valioso en roles de mediación, enseñanza y cuidado de equipos."
+    },
+    "estabilidad_emocional": {
+      "name": "Estabilidad emocional",
+      "behavioral": "Tu capacidad de manejar el estrés, regular tus emociones y mantener la autoconfianza bajo presión. Quienes puntúan alto mantienen la calma y se recuperan rápido; quienes puntúan bajo son más reactivos emocionalmente.",
+      "low":  "Sos más reactivo/a emocionalmente. Las situaciones de presión te afectan más profundamente, y la recuperación puede costarte más tiempo.",
+      "mid":  "Manejás bien el día a día emocional, aunque bajo presión extrema tu estabilidad puede resentirse. Vas a beneficiarte de técnicas de regulación preventiva.",
+      "high": "Mantenés la calma bajo presión, te recuperás rápido de los disgustos y confiás en tu criterio. Esto te hace especialmente fuerte en roles de alta exigencia."
+    }
+  },
+  "facets": {
+    "curiosidad_intelectual": {
+      "behavioral": "Disfrute de explorar ideas, conceptos y discusiones abstractas, más allá de su aplicación inmediata.",
+      "low":  "Preferís lo concreto y aplicable. La exploración puramente intelectual te resulta poco atractiva salvo que tenga un uso claro.",
+      "mid":  "Curiosidad moderada: aprendés lo necesario para tus intereses, sin lanzarte a explorar temas puramente por curiosidad.",
+      "high": "Tenés hambre intelectual. Disfrutás aprender por aprender y tendés a profundizar más allá de lo que la mayoría."
+    },
+    "creatividad": {
+      "behavioral": "Facilidad para generar ideas nuevas, enfoques alternativos y soluciones originales.",
+      "low":  "Preferís métodos probados por sobre inventar nuevos. Tu fortaleza está en ejecutar lo conocido con solidez.",
+      "mid":  "Podés generar ideas nuevas cuando la situación lo pide, aunque no es tu modo por defecto.",
+      "high": "Sos naturalmente creativo/a. Se te ocurren enfoques originales con facilidad, lo que te hace fuerte en innovación y diseño."
+    },
+    "apertura_experiencias": {
+      "behavioral": "Disposición a probar cosas nuevas: lugares, actividades, perspectivas distintas a las propias.",
+      "low":  "Preferís la rutina conocida. Lo nuevo te incomoda más que atraerte, y eso te da consistencia.",
+      "mid":  "Aceptás nuevas experiencias cuando tienen sentido, sin perseguirlas activamente.",
+      "high": "Te entusiasma probar lo desconocido. Cambiar de rutina te resulta estimulante y nutritivo."
+    },
+    "organizacion": {
+      "behavioral": "Planificación, orden de espacios físicos/digitales, uso de sistemas para no olvidar pendientes.",
+      "low":  "Sos más flexible que ordenado/a. Tu sistema se apoya más en la intuición y la inmediatez.",
+      "mid":  "Tenés organización suficiente para no perder lo importante, aunque no seas obsesivo/a con el orden.",
+      "high": "Planificás con anticipación y mantenés sistemas consistentes. Sos la persona a quien otros piden que organice."
+    },
+    "autodisciplina": {
+      "behavioral": "Capacidad de terminar lo que empezás, cumplir compromisos y postergar gratificación por un objetivo mayor.",
+      "low":  "Te cuesta mantener el foco cuando una tarea se vuelve tediosa. Funcionás mejor con variedad y motivación alta.",
+      "mid":  "Disciplinado/a cuando hace falta, sin rigidez. Podés postergar gratificaciones por objetivos claros.",
+      "high": "Terminás lo que empezás aunque pierda interés. Tu disciplina es una fortaleza clara y muy valorada en equipos."
+    },
+    "orientacion_logro": {
+      "behavioral": "Fijarte metas concretas, exigirte estándares altos y motivarte por el progreso más que por el reconocimiento.",
+      "low":  "Sos más contemplativo/a que orientado/a a metas. Preferís disfrutar el proceso a competir por resultados.",
+      "mid":  "Te fijás metas cuando el contexto lo demanda, con estándares razonables.",
+      "high": "Te fijás metas claras y trabajás activamente para alcanzarlas. El progreso te motiva más que el reconocimiento externo."
+    },
+    "sociabilidad": {
+      "behavioral": "Disfrute genuino de estar con gente, buscar activamente oportunidades sociales y obtener energía de la interacción.",
+      "low":  "Sos más selectivo/a en lo social. Disfrutás conexiones profundas más que un círculo amplio.",
+      "mid":  "Social cuando toca, solitario/a cuando lo necesitás. Equilibrio funcional.",
+      "high": "Te energiza estar con gente. Buscás activamente oportunidades sociales y conectás con facilidad."
+    },
+    "asertividad": {
+      "behavioral": "Expresar tu opinión con claridad, tomar la iniciativa, defender tu posición sin agresividad.",
+      "low":  "Tendés a evitar el conflicto directo. A veces cedés aunque internamente no estés de acuerdo.",
+      "mid":  "Te expresás con claridad cuando es necesario, sin que sea tu modo por defecto.",
+      "high": "Expresás tu opinión con claridad, tomás la iniciativa para liderar y negociás con soltura."
+    },
+    "energia_entusiasmo": {
+      "behavioral": "Energía visible, entusiasmo al abordar actividades, expresividad emocional.",
+      "low":  "Sos más reservado/a y de bajo perfil. Mostrás tu energía en entornos de confianza, no masivamente.",
+      "mid":  "Energía y entusiasmo adaptativos: altos cuando te interesa, contenidos cuando no.",
+      "high": "Aboras las actividades con energía y entusiasmo visible. Tu expresividad es contagiosa y motiva a otros."
+    },
+    "empatia": {
+      "behavioral": "Percibir cómo se siente otra persona aunque no lo diga, y adaptar tu comunicación a sus necesidades.",
+      "low":  "Conectás con las emociones de otros de forma más racional que visceral. Podés parecer distante, aunque no lo seas.",
+      "mid":  "Empatía funcional: percibís lo que otros sienten y adaptás tu comunicación cuando es necesario.",
+      "high": "Percibís las emociones ajenas con facilidad y te afectan genuinamente. Sos muy fuerte en roles de cuidado, enseñanza y mediación."
+    },
+    "cooperacion": {
+      "behavioral": "Preferencia por acuerdos sobre imponer posición, ceder en aras de la relación, disfrutar del trabajo en equipo.",
+      "low":  "Sos más competitivo/a que cooperativo/a. Priorizás tener razón por sobre mantener la armonía.",
+      "mid":  "Cooperás cuando es funcional, sin sacrificar tu criterio.",
+      "high": "Buscás acuerdos y disfrutás trabajar en equipo. Cedés con naturalidad para mantener relaciones sanas."
+    },
+    "confianza_interpersonal": {
+      "behavioral": "Asumir buena intención por defecto, delegar sin microgestionar, compartir información personal cuando hay confianza.",
+      "low":  "Sos cauto/a con la confianza. Delegar te cuesta y tendés a sospechar hasta tener evidencia clara.",
+      "mid":  "Confianza gradual: la das cuando la otra persona la sostiene con el tiempo.",
+      "high": "Asumís buena intención por defecto, delegás con soltura y te abrís con relativa facilidad."
+    },
+    "manejo_estres": {
+      "behavioral": "Mantener la calma bajo presión, buscar soluciones en vez de quedarse en la frustración.",
+      "low":  "Las situaciones de presión te desbordan con facilidad. Tu estado de ánimo depende más del contexto externo del que te gustaría.",
+      "mid":  "Manejás bien la presión moderada. La presión extrema puede pasarte factura.",
+      "high": "Bajo presión mantenés la calma y buscás soluciones. Tu desempeño no decae — incluso puede mejorar."
+    },
+    "regulacion_emocional": {
+      "behavioral": "Identificar y nombrar lo que sentís, no reaccionar impulsivamente, recuperarte rápido de disgustos.",
+      "low":  "Tus emociones suelen tomar el control antes de que puedas pensar. La reactividad es un área clara de desarrollo.",
+      "mid":  "Regulás bien en el día a día, aunque hay detonantes que te sacan de eje.",
+      "high": "Podés identificar lo que sentís, no reaccionás de forma impulsiva y te recuperás rápido. Fortaleza clara."
+    },
+    "autoconfianza": {
+      "behavioral": "Confiar en tu criterio, no depender de validación externa, sentirte capaz de enfrentar retos nuevos.",
+      "low":  "Dependés bastante de la validación de otros para sentirte seguro/a. Las críticas te afectan de forma duradera.",
+      "mid":  "Confianza suficiente, con zonas donde la validación externa todavía pesa.",
+      "high": "Confiás en tu criterio, las críticas no te desestabilizan y enfrentás retos nuevos con seguridad."
+    }
+  },
+  "composite_indices": {
+    "liderazgo_potencial": {
+      "name": "Liderazgo potencial",
+      "behavioral": "Combinación de asertividad, orientación al logro y energía/entusiasmo. Predice la probabilidad de tener éxito en roles de liderazgo de personas.",
+      "low":  "Hoy tu potencial de liderazgo se ve limitado por una combinación de baja asertividad, foco en logro o energía visible. Invertir en comunicación asertiva sería tu palanca de mayor impacto.",
+      "mid":  "Tenés un potencial de liderazgo funcional. Dependiendo de qué dimensión esté más baja, podés desbloquearlo con foco específico.",
+      "high": "Tenés un potencial de liderazgo sólido. Asertividad, orientación al logro y entusiasmo se combinan para que lideres con energía."
+    },
+    "trabajo_equipo": {
+      "name": "Trabajo en equipo",
+      "behavioral": "Combinación de cooperación, empatía y sociabilidad. Predice tu capacidad para colaborar efectivamente en equipos diversos.",
+      "low":  "Tu estilo tiende más a la autonomía o a la competencia que a la colaboración. Reconocer esto es el primer paso; después podés diseñar formas de sumar sin perder tu estilo.",
+      "mid":  "Funcionás bien en equipos. Podés cooperar profundamente cuando hace falta, sin que sea tu modo por defecto.",
+      "high": "Sos un/a colaborador/a natural. Empatía, cooperación y sociabilidad se combinan para que los equipos funcionen mejor con vos."
+    },
+    "tolerancia_riesgo": {
+      "name": "Tolerancia al riesgo / innovación",
+      "behavioral": "Combinación de apertura a experiencias, creatividad y estabilidad emocional. Predice tu capacidad de tomar decisiones bajo incertidumbre.",
+      "low":  "Preferís caminos probados. La incertidumbre te incomoda, lo que te hace fuerte en optimización más que en exploración.",
+      "mid":  "Aceptás riesgos moderados cuando los sopesás. Funcionás bien en innovación cuando tenés algún grado de certeza.",
+      "high": "Combinás curiosidad, creatividad y calma bajo incertidumbre. Sos fuerte en roles de innovación y exploración."
+    },
+    "estilo_ejecucion": {
+      "name": "Estilo de ejecución",
+      "behavioral": "Combinación de organización, autodisciplina y manejo del estrés. Predice tu capacidad de entregar resultados consistentes.",
+      "low":  "Tu ejecución depende mucho del contexto. En entornos caóticos, te cuesta mantener foco y cumplir plazos.",
+      "mid":  "Ejecutás razonablemente bien, aunque bajo presión extrema tu consistencia puede resentirse.",
+      "high": "Sos muy fuerte en ejecución. Organización, disciplina y calma bajo presión se combinan para entregar resultados consistentes."
+    }
+  }
+}

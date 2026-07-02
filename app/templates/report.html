@@ -1,0 +1,161 @@
+{% extends "base.html" %}
+{% block title %}Tu perfil · OCEAN-P{% endblock %}
+
+{% block content %}
+<section class="page-container-wide py-10 sm:py-14">
+
+    <!-- Banner de validez (si aplica) -->
+    {% if not is_conclusive %}
+    <div class="callout callout-warning mb-8 reveal-up" id="validity-banner">
+        <p class="eyebrow mb-2 text-terracotta">Resultado no concluyente</p>
+        <p class="text-ink mb-3">
+            Detectamos algunas señales de que el test se completó sin la concentración necesaria.
+        </p>
+        <p class="text-ink-soft text-sm mb-4">
+            Te recomendamos repetirlo en condiciones de mayor foco para obtener un perfil más fiable.
+        </p>
+        <a href="/quiz" class="btn btn-secondary no-underline text-sm">Repetir el test</a>
+    </div>
+    {% endif %}
+
+    <!-- Header: arquetipo + fecha -->
+    <header class="mb-12">
+        <p class="eyebrow mb-4 reveal-up">
+            Tu perfil OCEAN-P · {{ generated_at.strftime("%d/%m/%Y") if generated_at else "" }}
+        </p>
+        <h1
+            id="archetype-headline"
+            class="font-display font-semibold text-4xl sm:text-5xl lg:text-6xl leading-[1.05] tracking-tight mb-6"
+        >
+            {{ archetype_label }}
+        </h1>
+        <p class="text-ink-soft text-lg max-w-2xl reveal-up">
+            {% if dimensions %}
+                Tus dos dimensiones más altas son
+                <span class="text-ink font-medium">{{ dimensions[0].interpretation.name }}</span>
+                y
+                <span class="text-ink font-medium">{{ dimensions[1].interpretation.name }}</span>.
+            {% endif %}
+        </p>
+    </header>
+
+    <!-- Disclaimer de tabla normativa inicial -->
+    <div class="callout mb-8 reveal-up" id="norm-disclaimer">
+        <p class="text-sm text-ink-soft leading-relaxed">
+            <span class="text-ink font-medium">Sobre los percentiles:</span>
+            los baremos de este informe están basados en una muestra de referencia inicial.
+            A medida que la base de datos crezca, los percentiles se recalibrarán para mayor
+            precisión estadística. Si repetís el test en unos meses, es posible que algunos
+            percentiles cambien levemente — eso no significa que vos hayas cambiado, sino que
+            la referencia es más precisa.
+        </p>
+    </div>
+
+    <!-- Top strengths / growth areas -->
+    {% if top_strengths %}
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-10">
+        <div class="card">
+            <p class="numeral mb-3">↑</p>
+            <p class="eyebrow mb-4">Fortalezas principales</p>
+            {% for s in top_strengths %}
+            <div class="mb-3 last:mb-0 pb-3 last:pb-0 border-b last:border-b-0 border-ink-soft/20">
+                <p class="font-display text-base font-semibold mb-1">{{ s.interpretation.name }}</p>
+                <p class="text-sm text-ink-soft leading-relaxed">{{ s.interpretation.text }}</p>
+            </div>
+            {% endfor %}
+        </div>
+        <div class="card">
+            <p class="numeral mb-3">↓</p>
+            <p class="eyebrow mb-4">Áreas de desarrollo</p>
+            {% for s in growth_areas %}
+            <div class="mb-3 last:mb-0 pb-3 last:pb-0 border-b last:border-b-0 border-ink-soft/20">
+                <p class="font-display text-base font-semibold mb-1">{{ s.interpretation.name }}</p>
+                <p class="text-sm text-ink-soft leading-relaxed">{{ s.interpretation.text }}</p>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+
+    <!-- Gráfico de 5 dimensiones -->
+    <div class="card p-6 sm:p-8 mb-8" id="dimensions-chart">
+        <h2 class="font-display text-2xl font-semibold mb-6">Dimensiones OCEAN</h2>
+        <div class="space-y-6">
+            {% for d in dimensions %}
+            <div>
+                <div class="flex justify-between items-baseline mb-2">
+                    <span class="font-display text-base font-medium">{{ d.interpretation.name }}</span>
+                    <span class="font-mono text-xs text-ink-soft">
+                        P{{ "%.0f"|format(d.percentile) }} · raw {{ "%.1f"|format(d.raw) }}
+                    </span>
+                </div>
+                <div class="dimension-bar-track">
+                    <div
+                        class="dimension-bar-fill"
+                        data-dimension="{{ d.key }}"
+                        style="width: 0%;"
+                    ></div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- Detalle por faceta -->
+    <div class="mb-8">
+        <h2 class="font-display text-2xl font-semibold mb-2">Detalle por faceta</h2>
+        <p class="text-ink-soft text-sm mb-6">15 facetas medidas — el detalle conductual accionable.</p>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {% for f in facets %}
+            <div class="card facet-card p-4" data-facet-index="{{ loop.index0 }}">
+                <div class="flex justify-between items-start mb-2 gap-3">
+                    <h3 class="font-display text-base font-semibold leading-tight">{{ f.interpretation.name }}</h3>
+                    <span class="tag
+                        {% if f.percentile < 35 %}tag-descriptive
+                        {% elif f.percentile > 65 %}tag-validated
+                        {% else %}tag-descriptive{% endif %} whitespace-nowrap">
+                        P{{ "%.0f"|format(f.percentile) }}
+                    </span>
+                </div>
+                <p class="text-xs text-ink-soft leading-relaxed">{{ f.interpretation.text }}</p>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- Índices profesionales -->
+    <div class="mb-8">
+        <h2 class="font-display text-2xl font-semibold mb-2">Índices profesionales</h2>
+        <p class="text-ink-soft text-sm mb-6">Combinaciones de facetas con aplicación directa a contexto laboral.</p>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            {% for c in composites %}
+            <div class="card composite-card p-5">
+                <div class="flex items-baseline gap-3 mb-2">
+                    <span class="font-display text-3xl font-semibold">
+                        P{{ "%.0f"|format(c.percentile) }}
+                    </span>
+                    <h3 class="font-display text-base font-semibold">{{ c.interpretation.name }}</h3>
+                </div>
+                <p class="text-sm text-ink-soft leading-relaxed">{{ c.interpretation.text }}</p>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <hr class="hairline my-10">
+
+    <!-- CTAs de exportación (placeholders) -->
+    <div class="text-center">
+        <h2 class="font-display text-2xl font-semibold mb-2">Llevarte este informe</h2>
+        <p class="text-ink-soft text-sm mb-6">Próximamente: descarga en PDF y envío por correo.</p>
+        <div class="flex flex-col sm:flex-row gap-3 justify-center">
+            <button class="btn btn-secondary" disabled>Descargar PDF (próximamente)</button>
+            <button class="btn btn-primary" disabled>Enviar por correo (próximamente)</button>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block scripts %}
+<script src="/static/js/report.js"></script>
+{% endblock %}

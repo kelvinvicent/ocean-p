@@ -1,0 +1,43 @@
+# No incluir el venv (se reconstruye dentro del contenedor)
+.venv/
+venv/
+env/
+
+# No incluir la BD local ni migraciones cacheadas
+*.db
+*.sqlite
+*.sqlite3
+
+# No incluir variables de entorno (las configura Railway)
+.env
+.env.local
+
+# No incluir git
+.git/
+.gitignore
+
+# No incluir artefactos de tests
+.pytest_cache/
+.coverage
+htmlcov/
+.mypy_cache/
+.ruff_cache/
+
+# No incluir docs (se distribuyen por separado)
+DEPLOY-RAILWAY.md
+GUIA-LOCAL.md
+PLAN-IMPLEMENTACION.md
+PRD-*.md
+test-personalidad-*.md
+PLAN-MODULO-*.md
+arrancar.bat
+arrancar.ps1
+reset.bat
+
+# Logs y temporales
+*.log
+__pycache__/
+*.pyc
+*.pyo
+.DS_Store
+Thumbs.db
