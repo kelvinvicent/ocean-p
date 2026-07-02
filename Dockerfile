@@ -36,12 +36,11 @@ COPY . .
 EXPOSE 8000
 
 # Healthcheck (Railway lo usa para saber si el servicio está vivo)
+# Usamos shell form para que ${PORT:-8000} se expanda correctamente
 HEALTHCHECK --interval=30s --timeout=10s --start-period=20s --retries=3 \
-    CMD curl -f http://127.0.0.1:${PORT:-8000}/health || exit 1
+    CMD sh -c 'curl -f "http://127.0.0.1:${PORT:-8000}/health" || exit 1'
 
-# Script de release: aplica migraciones antes de arrancar.
-# En Railway esto se ejecuta automáticamente ANTES del comando de start
-# (gracias a railway.toml: predeploy).
-# Si ejecutas el contenedor manualmente, podés llamar a:
-#   docker run <image> python -m alembic upgrade head
-CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]
+# Start command: usa shell form (sh -c) para expandir ${PORT:-8000}.
+# Esto es crítico: CMD en exec form NO expande variables de entorno.
+# Railway inyecta $PORT automáticamente; fallback a 8000 para dev local.
+CMD ["sh", "-c", "uvicorn app.main:app --host 0.0.0.0 --port ${PORT:-8000}"]
