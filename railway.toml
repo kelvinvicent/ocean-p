@@ -14,9 +14,11 @@ dockerfilePath = "Dockerfile"
 # una versión inconsistente en producción.
 releaseCommand = "alembic upgrade head"
 
-# Comando principal: arranca uvicorn
+# Comando principal: arranca uvicorn.
+# Railway ejecuta startCommand en exec form (sin shell), por lo que ${PORT}
+# NO se expande automáticamente. Hay que wrappear en /bin/sh -c.
 # Railway inyecta $PORT automáticamente; si no está, fallback a 8000.
-startCommand = "uvicorn app.main:app --host 0.0.0.0 --port ${PORT:-8000}"
+startCommand = "/bin/sh -c \"uvicorn app.main:app --host 0.0.0.0 --port ${PORT:-8000}\""
 
 # Healthcheck: Railway hace GET a /health cada 30s.
 # Si falla 3 veces seguidas, marca el deploy como unhealthy.
