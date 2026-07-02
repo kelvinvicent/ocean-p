@@ -81,16 +81,14 @@
                     <!-- Contexto: opciones múltiples desde el backend -->
                     <select
                         @change="answer({{ item_id }}, parseInt($event.target.value))"
-                        class="bg-ocean-surface border border-ocean-border rounded px-3 py-2 text-sm w-full"
+                        class="w-full border border-ink bg-paper-soft px-3 py-2 text-sm rounded"
                     >
                         <option value="">— Selecciona una opción —</option>
-                        {% for opt in context_options.values %}
-                        {% for o in opt %}
+                        {% for o in context_options.get(item_id, []) %}
                         <option
                             value="{{ loop.index0 }}"
                             :selected="answers[{{ item_id }}] === {{ loop.index0 }}"
                         >{{ o }}</option>
-                        {% endfor %}
                         {% endfor %}
                     </select>
 

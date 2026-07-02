@@ -70,7 +70,7 @@ Tenés dos opciones:
 En Railway → tu servicio → **"Variables"** → agregar:
 ```
 SECRET_KEY = una-cadena-aleatoria-larga-de-al-menos-32-caracteres
-```
+jjI5zgb-oFZkaCp3vkW0phjfRR1whGYe7iy6bcyML6I
 
 Podés generar una con: `python -c "import secrets; print(secrets.token_urlsafe(32))"`
 

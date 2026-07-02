@@ -226,6 +226,25 @@ def test_RS6_report_no_usa_lenguaje_diagnostico(client, started_assessment):
 # RS-7: Pendiente bloqueante (no testeable automáticamente)
 # ----------------------------------------------------------------------
 
+def test_bloque_context_renderiza_sin_error(client, started_assessment):
+    """El bloque 10 (contexto) debe renderizar sin 500.
+
+    Bug previo: el template usaba `context_options.values` (método)
+    en vez de iterar por item_id.
+    """
+    aid = started_assessment
+    # El bloque 10 es el de contexto (1-indexed en BLOCKS)
+    r = client.get(f"/emotional-health/quiz/{aid}?block=10")
+    assert r.status_code == 200
+    # Las opciones del primer ítem (carga_laboral_academica) deben aparecer
+    assert "Baja" in r.text
+    assert "Manejable" in r.text
+    assert "Alta" in r.text
+    assert "Extrema" in r.text
+
+
+# ----------------------------------------------------------------------
+
 def test_RS7_recordatorio_en_codigo():
     """El código del motor contiene el recordatorio sobre la revisión profesional."""
     from pathlib import Path

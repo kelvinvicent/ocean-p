@@ -99,8 +99,7 @@ def _items_for_block(block: dict) -> dict[int, str]:
     return {}
 
 
-def _context_options() -> dict[str, list[str]]:
-    return ehe.CONTEXT_ITEMS
+
 
 
 # ----------------------------------------------------------------------
@@ -186,8 +185,13 @@ def eh_quiz_view(
     block_def = BLOCKS[block - 1]
     items = _items_for_block(block_def)
 
-    # Si el bloque es contexto, pasamos también las opciones
-    context_options = _context_options() if block_def["module"] == "context" else {}
+    # Si el bloque es contexto, mapeamos item_id → lista de opciones
+    # (1-indexed, mismo orden que en ehe.CONTEXT_ITEMS).
+    context_options: dict[int, list[str]] = {}
+    if block_def["module"] == "context":
+        context_keys = list(ehe.CONTEXT_ITEMS.keys())
+        for i, key in enumerate(context_keys, start=1):
+            context_options[i] = ehe.CONTEXT_ITEMS[key]
 
     return templates.TemplateResponse(
         request,
